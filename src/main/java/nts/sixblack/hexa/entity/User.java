@@ -31,6 +31,14 @@ public class User {
     private String phone;
     private boolean followStatus;
 
+    public void setFollowStatus(boolean followStatus){
+        this.followStatus = followStatus;
+    }
+
+    public boolean getFollowStatus(){
+        return followStatus;
+    }
+
     @OneToMany(mappedBy = "user")
     List<PostsUser> postsUserList;
 

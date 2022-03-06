@@ -15,7 +15,8 @@ public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long followId;
-    private int status;
+    private boolean status;
+
 
     @ManyToOne
     @JoinColumn(name = "userSender")

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post" th:action="@{/posts/uploadFile}" th:object="${postsForm}" enctype="multipart/form-data">
+    caption: <input type="text" th:field="*{caption}">
+    <br>
+    <input type="file" multiple th:field="*{files}">
+    <br>
+    <button>
+        send
+    </button>
+</form>
+</body>
+</html>
