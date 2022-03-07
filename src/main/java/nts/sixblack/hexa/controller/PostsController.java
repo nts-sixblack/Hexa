@@ -1,10 +1,9 @@
 package nts.sixblack.hexa.controller;
 
-import nts.sixblack.hexa.entity.Posts;
-import nts.sixblack.hexa.entity.PostsImage;
 import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
+import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,36 +40,28 @@ public class PostsController {
 
     @PostMapping("uploadFile")
     @ResponseBody
-    public Posts newFile(@ModelAttribute("postsForm") PostsForm postsForm){
+    public PostsInfo newFile(@ModelAttribute("postsForm") PostsForm postsForm){
         return postsService.newPosts(postsForm);
 //        return "ok";
     }
 
-//    lke/unlike
-    @PostMapping("feel")
+    @PostMapping("like")
     @ResponseBody
-    public boolean feel(@RequestBody Like like){
-        return postsFeelService.checkFeel(like.getPostsId(), like.getUserId());
+    public void like(@RequestBody Like like){
+        postsFeelService.like(like);
     }
 
-//    commment
     @PostMapping("comment")
     @ResponseBody
-    public boolean comment(@RequestBody CommentForm commentForm){
-        return postsCommentService.comment(commentForm);
+    public void comment(@RequestBody CommentForm commentForm){
+        postsCommentService.comment(commentForm);
     }
 
-//    delete comment
-    @GetMapping("comment={postsCommentId}")
+    @GetMapping("comment/{postsCommentId}")
     @ResponseBody
-    public void deleteComment(@PathVariable("postsCommentId") long postsId){
-        postsCommentService.deleteComment(postsId);
+    public void delete(@PathVariable("postsCommentId") long postsCommentId){
+        postsCommentService.delete(postsCommentId);
     }
-
-
-
-
-
 
 
 

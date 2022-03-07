@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfo {
+
     private long userId;
     private String firstName;
     private String lastName;

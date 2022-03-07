@@ -1,10 +1,14 @@
 package nts.sixblack.hexa.service.impl;
 
-import nts.sixblack.hexa.entity.Posts;
-import nts.sixblack.hexa.entity.PostsImage;
+import nts.sixblack.hexa.entity.*;
+import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
+import nts.sixblack.hexa.model.PostsImageInfo;
+import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.repository.PostsImageRepository;
 import nts.sixblack.hexa.repository.PostsRepository;
+import nts.sixblack.hexa.service.PostsFeelService;
+import nts.sixblack.hexa.service.PostsImageService;
 import nts.sixblack.hexa.service.PostsService;
 import nts.sixblack.hexa.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +23,9 @@ public class PostsServiceImpl implements PostsService {
     @Autowired
     PostsRepository postsRepository;
     @Autowired
-    PostsImageRepository postsImageRepository;
+    PostsImageService postsImageService;
+    @Autowired
+    PostsFeelService postsFeelService;
     @Autowired
     StorageService storageService;
 
@@ -30,28 +36,30 @@ public class PostsServiceImpl implements PostsService {
     private String bucketName;
 
     @Override
-    public List<Posts> getAll() {
-        return postsRepository.findAll();
-    }
-
-    @Override
-    public Posts newPosts(PostsForm postsForm) {
+    public PostsInfo newPosts(PostsForm postsForm) {
         Posts posts = new Posts();
         posts.setCaption(postsForm.getCaption());
 
-        Posts posts1 = postsRepository.save(posts);
-        List<PostsImage> postsImageList = new ArrayList<PostsImage>();
         PostsImage postsImage = new PostsImage();
         postsImage.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(postsForm.getFiles()));
-        postsImage.setPosts(posts1);
+        postsImage.setPosts(postsRepository.save(posts));
+        postsImageService.save(postsImage);
 
-        postsImageList.add(postsImage);
-        postsImageRepository.saveAll(postsImageList);
+        PostsInfo postsInfo = new PostsInfo();
+        postsInfo.setCaption(postsForm.getCaption());
+        postsInfo.setPostsId(postsImage.getPosts().getPostsId());
 
-        return posts1;
+        List<PostsImageInfo> postsImageInfoList = new ArrayList<PostsImageInfo>();
+        PostsImageInfo postsImageInfo = new PostsImageInfo();
+        postsImageInfo.setImage(postsImage.getImage());
+        postsImageInfoList.add(postsImageInfo);
+
+        postsInfo.setPostsImageList(postsImageInfoList);
+
+        return postsInfo;
     }
 
-    public Posts findById(long postsId){
-        return postsRepository.findById(postsId).get();
-    }
+
+
+
 }

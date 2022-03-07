@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class PostsFeelInfo {
     private long postsFeelId;
     private boolean feel;
-    private UserInfo user;
-    private PostsInfo posts;
+    private long postsId;
 }

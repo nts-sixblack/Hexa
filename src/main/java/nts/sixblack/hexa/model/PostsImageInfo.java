@@ -10,7 +10,5 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class PostsImageInfo {
     private long postsImageId;
-    private MultipartFile file;
     private String image;
-    private PostsInfo posts;
 }

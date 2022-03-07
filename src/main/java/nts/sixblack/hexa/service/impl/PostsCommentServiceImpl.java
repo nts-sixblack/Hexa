@@ -1,6 +1,8 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.entity.Posts;
 import nts.sixblack.hexa.entity.PostsComment;
+import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.repository.PostsCommentRepository;
 import nts.sixblack.hexa.repository.PostsRepository;
@@ -14,23 +16,23 @@ import org.springframework.stereotype.Service;
 public class PostsCommentServiceImpl implements PostsCommentService {
     @Autowired
     PostsCommentRepository postsCommentRepository;
-    @Autowired
-    UserService userService;
-    @Autowired
-    PostsService postsService;
 
     @Override
-    public boolean comment(CommentForm commentForm) {
+    public void comment(CommentForm commentForm) {
+        User user = new User();
+        user.setUserId(commentForm.getUserId());
+        Posts posts = new Posts();
+        posts.setPostsId(commentForm.getPostsId());
+
         PostsComment postsComment = new PostsComment();
         postsComment.setComment(commentForm.getComment());
-        postsComment.setPosts(postsService.findById(commentForm.getPostsId()));
-        postsComment.setUser(userService.findById(commentForm.getUserId()));
+        postsComment.setPosts(posts);
+        postsComment.setUser(user);
         postsCommentRepository.save(postsComment);
-        return true;
     }
 
     @Override
-    public void deleteComment(long postsCommmentId) {
-        postsCommentRepository.deleteById(postsCommmentId);
+    public void delete(long postsCommentId) {
+        postsCommentRepository.deleteById(postsCommentId);
     }
 }

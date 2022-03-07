@@ -2,7 +2,10 @@ package nts.sixblack.hexa.service.impl;
 
 import nts.sixblack.hexa.entity.Follow;
 import nts.sixblack.hexa.entity.User;
+import nts.sixblack.hexa.model.FollowInfo;
+import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.FollowRepository;
+import nts.sixblack.hexa.repository.UserRepository;
 import nts.sixblack.hexa.service.FollowService;
 import nts.sixblack.hexa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,71 +20,95 @@ public class FollowServiceImpl implements FollowService {
     FollowRepository followRepository;
 
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
+
 
     @Override
-    public void sendFollow(long userSenderId, long userRecipientId) {
-        User userSender = userService.findById(userSenderId);
-        User userRecipient = userService.findById(userRecipientId);
-        Follow followw = followRepository.findByUserSenderAndUserRecipient(userSender,userRecipient);
-        if(followw!=null){
-            followRepository.deleteById(followw.getFollowId());
+    public void sendRequestFollow(long userSenderId, long userRecipientId) {
+        User userSender = new User();
+        userSender.setUserId(userSenderId);
+        User userRecipient = new User();
+        userRecipient.setUserId(userRecipientId);
+
+        Follow follow = followRepository.findByUserSenderAndUserRecipient(userSender, userRecipient);
+        if (follow!=null){
+            delete(follow.getFollowId());
         } else {
-            boolean value = userRecipient.getFollowStatus();
-            Follow follow = new Follow();
-            follow.setStatus(value);
-            follow.setUserSender(userSender);
-            follow.setUserRecipient(userRecipient);
-
-            followRepository.save(follow);
+            boolean value = userRepository.checkFollowStatus(userRecipientId);
+            Follow follow1 = new Follow();
+            follow1.setUserRecipient(userRecipient);
+            follow1.setUserSender(userSender);
+            follow1.setStatus(value);
+            save(follow1);
         }
     }
 
     @Override
-    public List<Follow> requestList(long userId) {
-        List<Long> list = followRepository.requestListFollow(userId);
-        List<Follow> userList = new ArrayList<Follow>();
-        for(Long l:list){
-
-            Follow fol = followRepository.findByFollowId(l);
-
-            Follow follow = new Follow();
-            follow.setFollowId(l);
-
-            User user = userService.findById(fol.getUserSender().getUserId());
-
-            User value = new User();
-            value.setUserId(user.getUserId());
-            value.setName(user.getName());
-
-            follow.setUserSender(value);
-            userList.add(follow);
-        }
-        return userList;
-    }
-
-    @Override
-    public void accessFollow(long followId) {
-        Follow follow = followRepository.findByFollowId(followId);
-        follow.setStatus(true);
+    public void save(Follow follow) {
         followRepository.save(follow);
     }
 
     @Override
-    public void followStatus(long userId) {
-        User user = userService.findById(userId);
-        if (user.getFollowStatus()==true){
-            user.setFollowStatus(false);
-        } else {
-            List<Follow> list = followRepository.findByUserRecipient(user);
-            for (Follow follow:list){
-                follow.setStatus(true);
-            }
-            followRepository.saveAll(list);
-            user.setFollowStatus(true);
-        }
-        userService.save(user);
+    public void delete(long followId) {
+        followRepository.deleteById(followId);
     }
 
+    @Override
+    public List<FollowInfo> requestList(long userId) {
+        List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
 
+        List<Follow> followList = followRepository.requestListFollow(userId);
+        for(Follow follow:followList){
+            FollowInfo followInfo = new FollowInfo();
+            followInfo.setFollowId(follow.getFollowId());
+            followInfo.setStatus(false);
+            followInfo.setUserId(follow.getUserSender().getUserId());
+            followInfo.setUserName(follow.getUserSender().getName());
+            followInfo.setUserImage(follow.getUserSender().getAvatar());
+
+            followInfoList.add(followInfo);
+        }
+
+        return followInfoList;
+    }
+
+    @Override
+    public List<FollowInfo> followerList(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
+        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true);
+        for(Follow follow:list){
+            FollowInfo followInfo = new FollowInfo();
+            followInfo.setFollowId(follow.getFollowId());
+            followInfo.setStatus(follow.isStatus());
+            followInfo.setUserId(follow.getUserSender().getUserId());
+            followInfo.setUserName(follow.getUserSender().getName());
+            followInfo.setUserImage(follow.getUserSender().getAvatar());
+
+            followInfoList.add(followInfo);
+        }
+
+        return followInfoList;
+    }
+
+    @Override
+    public List<FollowInfo> followingList(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
+        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true);
+        for(Follow follow:list){
+            FollowInfo followInfo = new FollowInfo();
+            followInfo.setFollowId(follow.getFollowId());
+            followInfo.setStatus(follow.isStatus());
+            followInfo.setUserId(follow.getUserSender().getUserId());
+            followInfo.setUserName(follow.getUserSender().getName());
+            followInfo.setUserImage(follow.getUserSender().getAvatar());
+
+            followInfoList.add(followInfo);
+        }
+
+        return followInfoList;
+    }
 }

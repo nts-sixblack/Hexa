@@ -4,6 +4,5 @@ import nts.sixblack.hexa.entity.PostsComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostsCommentRepository extends JpaRepository<PostsComment, Long> {
-    @Override
-    void deleteById(Long aLong);
+
 }

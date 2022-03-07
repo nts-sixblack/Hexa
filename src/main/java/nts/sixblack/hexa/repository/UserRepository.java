@@ -1,6 +1,7 @@
 package nts.sixblack.hexa.repository;
 
 import nts.sixblack.hexa.entity.User;
+import nts.sixblack.hexa.model.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,16 +9,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("select u.followStatus from User u where u.userId = ?1")
+    boolean checkFollowStatus(long userId);
 
-    User findByEmailAndPassword(String userName, String password);
+    User findByUserId(long userId);
 
-    List<User> findByEmail(String email);
+    User findByEmailAndPassword(String email, String password);
 
-    @Query("select u from User u where u.name like concat('%',:username,'%') ")
-    List<User> findLikeName(@Param("username") String username);
-
-    User findById(long userId);
-
-
+    User findByEmail(String email);
 
 }

@@ -1,13 +1,15 @@
 package nts.sixblack.hexa.service;
 
 import nts.sixblack.hexa.entity.Follow;
-import nts.sixblack.hexa.entity.User;
+import nts.sixblack.hexa.model.FollowInfo;
 
 import java.util.List;
 
 public interface FollowService {
-    public void sendFollow(long userSender, long userRecipient);
-    public List<Follow> requestList(long userId);
-    public void accessFollow(long followId);
-    public void followStatus(long userId);
+    void sendRequestFollow(long userSenderId, long userRecipientId);
+    void save(Follow follow);
+    void delete(long followId);
+    List<FollowInfo> requestList(long userId);
+    List<FollowInfo> followerList(long userId);
+    List<FollowInfo> followingList(long userId);
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class MessageInfo {
     private long messageId;
     private String message;
-    private UserInfo user;
-    private ChannelInfo channel;
+    private long userId;
+    private long channelId;
 }

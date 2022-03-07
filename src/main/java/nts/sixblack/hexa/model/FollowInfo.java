@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FollowInfo {
     private long followId;
-    private int status;
-    private UserInfo userSender;
-    private UserInfo userRecipient;
+    private boolean status;
+    private long userId;
+    private String userName;
+    private String userImage;
 }

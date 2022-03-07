@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    public Follow findByUserSenderAndUserRecipient(User userSender, User userRecipient);
+    Follow findByUserSenderAndUserRecipient(User userSender, User userRecipient);
 
-    @Query("select f.followId from Follow f where f.userRecipient.userId = ?1 and f.status=false")
-    public List<Long> requestListFollow(long userRecipient);
+    @Query("select f from Follow f where f.userRecipient.userId = ?1 and f.status=false")
+    List<Follow> requestListFollow(long userRecipient);
 
-    public Follow findByFollowId(long followId);
+    List<Follow> findByUserRecipientAndStatus(User user, boolean status);
 
-    List<Follow> findByUserRecipient(User user);
+    List<Follow> findByUserSenderAndStatus(User user, boolean status);
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContactInfo {
     private long contactId;
-    private UserInfo user1;
-    private UserInfo user2;
-    private ChannelInfo channel;
+    private long userId1;
+    private long userId2;
+    private long channelId;
 }

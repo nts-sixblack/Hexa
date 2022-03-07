@@ -3,11 +3,13 @@ package nts.sixblack.hexa.service.impl;
 import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.LoginForm;
 import nts.sixblack.hexa.form.RegisterForm;
+import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.UserRepository;
 import nts.sixblack.hexa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,43 +18,73 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public User login(LoginForm loginForm) {
-        User user = userRepository.findByEmailAndPassword(loginForm.getUserName(), loginForm.getPassword());
-        if (user!=null){
-            return user;
-        }
-        return null;
-    }
-
-    @Override
-    public User register(RegisterForm registerForm) {
-        if (userRepository.findByEmail(registerForm.getEmail())!=null){
-            User user = new User();
-            user.setEmail(registerForm.getEmail());
-            user.setFirstName(registerForm.getFirstName());
-            user.setLastName(registerForm.getLastName());
-            user.setPassword(registerForm.getPassword());
-            user.setPhone(registerForm.getPhone());
+    public void changeFollowStatus(long userId) {
+        User user = userRepository.findByUserId(userId);
+        if (user.getFollowStatus()==true){
+            user.setFollowStatus(false);
+        } else {
             user.setFollowStatus(true);
-            user.setName(registerForm.getFirstName()+" "+registerForm.getLastName());
-
-            return userRepository.save(user);
         }
-        return null;
-    }
-
-    @Override
-    public List<User> findByName(String name) {
-        return userRepository.findLikeName(name);
-    }
-
-    @Override
-    public User findById(long userId) {
-        return userRepository.findById(userId);
-    }
-
-    @Override
-    public void save(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public UserInfo login(LoginForm loginForm) {
+        UserInfo userInfo = new UserInfo();
+
+        User user = userRepository.findByEmailAndPassword(loginForm.getUserName(), loginForm.getPassword());
+
+        if (user!=null){
+            userInfo.setUserId(user.getUserId());
+            userInfo.setFirstName(user.getFirstName());
+            userInfo.setLastName(user.getLastName());
+            userInfo.setAvatar(user.getAvatar());
+            userInfo.setBackground(user.getBackground());
+            userInfo.setEmail(user.getEmail());
+            userInfo.setName(user.getName());
+            userInfo.setPhone(user.getPhone());
+            userInfo.setFollowStatus(user.getFollowStatus());
+
+            return userInfo;
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
+    public UserInfo register(RegisterForm registerForm) {
+        UserInfo userInfo = new UserInfo();
+        User user1 = userRepository.findByEmail(registerForm.getEmail());
+        if (user1==null){
+            user1 = new User();
+            user1.setFirstName(registerForm.getFirstName());
+            user1.setLastName(registerForm.getLastName());
+            user1.setEmail(registerForm.getEmail());
+            user1.setPhone(registerForm.getPhone());
+            user1.setPassword(registerForm.getPassword());
+            user1.setName(registerForm.getFirstName()+" "+registerForm.getLastName());
+            user1.setFollowStatus(true);
+
+            User user = userRepository.save(user1);
+
+            userInfo.setUserId(user.getUserId());
+            userInfo.setFirstName(user.getFirstName());
+            userInfo.setLastName(user.getLastName());
+            userInfo.setAvatar(user.getAvatar());
+            userInfo.setBackground(user.getBackground());
+            userInfo.setEmail(user.getEmail());
+            userInfo.setName(user.getName());
+            userInfo.setPhone(user.getPhone());
+            userInfo.setFollowStatus(user.getFollowStatus());
+
+            return userInfo;
+        } else {
+
+
+
+            return null;
+        }
+
     }
 }

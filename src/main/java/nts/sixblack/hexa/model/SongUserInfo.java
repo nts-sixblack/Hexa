@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SongUserInfo {
     private long songUserId;
-    private SongInfo song;
-    private UserInfo user;
+    private long userId;
+    private String userName;
+    private String image;
 }

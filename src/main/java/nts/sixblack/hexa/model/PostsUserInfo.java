@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostsUserInfo {
     private long postsUserId;
-    private PostsInfo posts;
-    private UserInfo user;
+    private long userId;
+    private String name;
+    private String image;
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class SongCommentInfo {
     private long songCommentId;
     private String comment;
-    private UserInfo user;
-    private SongInfo song;
+    private long userId;
+    private String userName;
+    private String image;
 }
