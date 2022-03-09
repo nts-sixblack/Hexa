@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Like {
-    private long postsId;
+    private long tusId;
     private long userId;
 //    private boolean feel;
 }

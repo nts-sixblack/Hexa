@@ -3,8 +3,10 @@ package nts.sixblack.hexa.service.impl;
 import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.LoginForm;
 import nts.sixblack.hexa.form.RegisterForm;
+import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.UserRepository;
+import nts.sixblack.hexa.service.PostsService;
 import nts.sixblack.hexa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PostsService postsService;
 
     @Override
     public void changeFollowStatus(long userId) {
@@ -86,5 +91,30 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
+    }
+
+    @Override
+    public UserInfo information(long userId) {
+        User user = userRepository.findByUserId(userId);
+        UserInfo userInfo = new UserInfo();
+
+        userInfo.setUserId(user.getUserId());
+        userInfo.setFirstName(user.getFirstName());
+        userInfo.setLastName(user.getLastName());
+        userInfo.setAvatar(user.getAvatar());
+        userInfo.setBackground(user.getBackground());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setName(user.getName());
+        userInfo.setPhone(user.getPhone());
+        userInfo.setFollowStatus(user.getFollowStatus());
+
+        if (userInfo.isFollowStatus()==true){
+            List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);
+            userInfo.setPostsList(postsInfoList);
+        } else {
+
+        }
+
+        return userInfo;
     }
 }

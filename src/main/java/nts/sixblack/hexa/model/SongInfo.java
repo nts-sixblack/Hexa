@@ -13,7 +13,7 @@ public class SongInfo {
     private long songId;
     private String name;
     private String image;
-    private String link;
+    private String song;
     private List<SongUserInfo> songUserList;
     private List<SongFeelInfo> songFeelList;
     private List<SongCommentInfo> songCommentList;

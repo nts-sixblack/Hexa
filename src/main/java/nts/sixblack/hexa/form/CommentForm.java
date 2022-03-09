@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CommentForm {
     private String comment;
     private long userId;
-    private long postsId;
+    private long tusId;
 }

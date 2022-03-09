@@ -11,4 +11,5 @@ public interface UserService {
     void changeFollowStatus(long userId);
     UserInfo login(LoginForm loginForm);
     UserInfo register(RegisterForm registerForm);
+    UserInfo information(long userId);
 }

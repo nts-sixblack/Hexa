@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.controller;
 
+import nts.sixblack.hexa.entity.PostsImage;
 import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
@@ -63,6 +64,11 @@ public class PostsController {
         postsCommentService.delete(postsCommentId);
     }
 
+    @GetMapping("{postsId}")
+    @ResponseBody
+    public PostsInfo findPostsByPostId(@PathVariable("postsId") long postsId){
+        return postsService.findPostsById(postsId);
+    }
 
 
 }

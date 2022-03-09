@@ -15,6 +15,6 @@ public class SongForm {
     private MultipartFile image;
     private MultipartFile song;
     private long songCategoryId;
-    private List<Long> songUser;
+//    private List<Long> songUser;
 
 }

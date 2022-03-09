@@ -11,6 +11,6 @@ public class SongFeelInfo {
     private long songFeelId;
     private boolean feel;
     private long userId;
-    private String userName;
+    private String name;
     private String image;
 }

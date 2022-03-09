@@ -11,6 +11,6 @@ public class SongCommentInfo {
     private long songCommentId;
     private String comment;
     private long userId;
-    private String userName;
+    private String name;
     private String image;
 }

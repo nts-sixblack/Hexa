@@ -26,5 +26,10 @@ public class UserController {
         return userService.register(registerForm);
     }
 
+    @GetMapping("{userId}")
+    public UserInfo informationOfUser(@PathVariable("userId") long userId){
+        return userService.information(userId);
+    }
+
 
 }

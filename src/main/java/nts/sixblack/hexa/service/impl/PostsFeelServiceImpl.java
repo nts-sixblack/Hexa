@@ -4,12 +4,16 @@ import nts.sixblack.hexa.entity.Posts;
 import nts.sixblack.hexa.entity.PostsFeel;
 import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.Like;
+import nts.sixblack.hexa.model.PostsFeelInfo;
 import nts.sixblack.hexa.repository.PostsFeelRepository;
 import nts.sixblack.hexa.service.PostsFeelService;
 import nts.sixblack.hexa.service.PostsService;
 import nts.sixblack.hexa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostsFeelServiceImpl implements PostsFeelService {
@@ -38,14 +42,14 @@ public class PostsFeelServiceImpl implements PostsFeelService {
 
     @Override
     public void like(Like like) {
-        long postsFeelId = checkFeel(like.getPostsId(),like.getUserId());
+        long postsFeelId = checkFeel(like.getTusId(),like.getUserId());
         if (postsFeelId > 0){
             delete(postsFeelId);
         } else {
             User user = new User();
             user.setUserId(like.getUserId());
             Posts posts = new Posts();
-            posts.setPostsId(like.getPostsId());
+            posts.setPostsId(like.getTusId());
 
             PostsFeel postsFeel = new PostsFeel();
             postsFeel.setFeel(true);
@@ -54,5 +58,23 @@ public class PostsFeelServiceImpl implements PostsFeelService {
 
             save(postsFeel);
         }
+    }
+
+    @Override
+    public List<PostsFeelInfo> findListFeelByPostsId(long postsId) {
+        Posts posts = new Posts();
+        posts.setPostsId(postsId);
+        List<PostsFeel> postsFeelList = postsFeelRepository.findPostsFeelByPosts(posts);
+        List<PostsFeelInfo> postsFeelInfoList = new ArrayList<PostsFeelInfo>();
+        for (PostsFeel postsFeel:postsFeelList){
+            PostsFeelInfo postsFeelInfo = new PostsFeelInfo();
+            postsFeelInfo.setPostsFeelId(postsFeel.getPostsFeelId());
+            postsFeelInfo.setFeel(postsFeel.isFeel());
+            postsFeelInfo.setPostsId(postsFeel.getPosts().getPostsId());
+
+            postsFeelInfoList.add(postsFeelInfo);
+        }
+
+        return postsFeelInfoList;
     }
 }

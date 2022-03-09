@@ -21,7 +21,7 @@ public class Song {
     @Column(columnDefinition = "varchar(255)")
     private String image;
     @Column(columnDefinition = "varchar(255)")
-    private String link;
+    private String song;
 
     @ManyToOne
     @JoinColumn(name = "songCategoryId")
