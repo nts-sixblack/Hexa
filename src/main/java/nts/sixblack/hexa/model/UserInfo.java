@@ -34,4 +34,5 @@ public class UserInfo {
     private List<FollowInfo> userRecipient;
     private List<PostsInfo> postsList;
     private List<SongInfo> songList;
+    private List<ListSongInfo> listSongInfoList;
 }

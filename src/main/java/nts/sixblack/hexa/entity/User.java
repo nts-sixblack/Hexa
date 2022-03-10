@@ -75,6 +75,7 @@ public class User {
     @OneToMany(mappedBy = "user2")
     List<Contact> contact2;
 
-
+    @OneToMany(mappedBy = "user")
+    List<ListSong> listSongList;
 
 }

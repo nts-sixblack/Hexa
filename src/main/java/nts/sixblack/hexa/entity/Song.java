@@ -35,4 +35,7 @@ public class Song {
 
     @OneToMany(mappedBy = "song")
     List<SongComment> songCommentList;
+
+    @OneToMany(mappedBy = "song")
+    List<ListSongItem> listSongItemList;
 }
