@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface PostsCommentRepository extends JpaRepository<PostsComment, Long> {
     List<PostsComment> findPostsCommentByPosts(Posts posts);
+
+    List<PostsComment> findTop3ByPostsOrderByPostsCommentId(Posts posts);
 }

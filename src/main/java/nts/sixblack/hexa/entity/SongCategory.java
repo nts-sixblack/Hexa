@@ -3,6 +3,7 @@ package nts.sixblack.hexa.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,5 +21,6 @@ public class SongCategory {
     private String name;
 
     @OneToMany(mappedBy = "songCategory")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<Song> songList;
 }

@@ -81,10 +81,12 @@ public class PostsServiceImpl implements PostsService {
         postsInfo.setPostsUserList(postsUserInfoList);
 
         List<PostsCommentInfo> postsCommentInfoList = postsCommentService.findListCommentByPostsId(postsId);
-        postsInfo.setPostsCommentList(postsCommentInfoList);
+//        postsInfo.setPostsCommentList(postsCommentInfoList);
+        postsInfo.setTotalComment(postsCommentInfoList.size());
 
         List<PostsFeelInfo> postsFeelInfoList = postsFeelService.findListFeelByPostsId(postsId);
-        postsInfo.setPostsFeelList(postsFeelInfoList);
+//        postsInfo.setPostsFeelList(postsFeelInfoList);
+        postsInfo.setTotalFeel(postsFeelInfoList.size());
 
         List<PostsImageInfo> postsImageInfoList = postsImageService.findListImageByPostsId(postsId);
         postsInfo.setPostsImageList(postsImageInfoList);

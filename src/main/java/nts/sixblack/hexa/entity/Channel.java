@@ -3,6 +3,7 @@ package nts.sixblack.hexa.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,11 +23,14 @@ public class Channel {
     private String decription;
 
     @OneToMany(mappedBy = "channel")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<UserChannel> userChannelList;
 
     @OneToMany(mappedBy = "channel")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<Message> messageList;
 
     @OneToOne(mappedBy = "channel")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     Contact contact;
 }

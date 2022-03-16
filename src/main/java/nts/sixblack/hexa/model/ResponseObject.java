@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageInfo {
-    private long messageId;
+public class ResponseObject {
+    private String status;
     private String message;
-    private long userId;
-    private String image;
-    private String name;
-    private long channelId;
+    private Object data;
 }

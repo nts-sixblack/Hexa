@@ -11,6 +11,9 @@ cloud:
 application:
   bucket:
     name: nts-sixblack-hexa
+  security:
+    secret-key: sixblack
+
 
 
 spring:
@@ -23,3 +26,5 @@ spring:
 
 server:
   port: 9090
+
+

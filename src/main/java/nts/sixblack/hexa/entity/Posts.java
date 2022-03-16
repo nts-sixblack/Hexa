@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,14 +23,18 @@ public class Posts {
     private String caption;
 
     @OneToMany(mappedBy = "posts")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<PostsUser> postsUserList;
 
     @OneToMany(mappedBy = "posts")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<PostsImage> postsImageList;
 
     @OneToMany(mappedBy = "posts")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<PostsFeel> postsFeelList;
 
     @OneToMany(mappedBy = "posts")
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<PostsComment> postsCommentList;
 }

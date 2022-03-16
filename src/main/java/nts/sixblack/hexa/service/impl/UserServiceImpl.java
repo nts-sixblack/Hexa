@@ -8,19 +8,27 @@ import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.UserRepository;
 import nts.sixblack.hexa.service.PostsService;
 import nts.sixblack.hexa.service.UserService;
+import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     PostsService postsService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public void changeFollowStatus(long userId) {
@@ -67,7 +75,7 @@ public class UserServiceImpl implements UserService {
             user1.setLastName(registerForm.getLastName());
             user1.setEmail(registerForm.getEmail());
             user1.setPhone(registerForm.getPhone());
-            user1.setPassword(registerForm.getPassword());
+            user1.setPassword(passwordEncoder.encode(registerForm.getPassword()));
             user1.setName(registerForm.getFirstName()+" "+registerForm.getLastName());
             user1.setFollowStatus(true);
 
@@ -85,9 +93,6 @@ public class UserServiceImpl implements UserService {
 
             return userInfo;
         } else {
-
-
-
             return null;
         }
 
@@ -116,5 +121,20 @@ public class UserServiceImpl implements UserService {
         }
 
         return userInfo;
+    }
+
+    @Override
+    public UserDetails getUserByUserId(long userId) {
+        User user = userRepository.findByUserId(userId);
+        return new CustomUserDetail(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        if (user==null){
+            throw new UsernameNotFoundException(username);
+        }
+        return new CustomUserDetail(user);
     }
 }

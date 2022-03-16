@@ -12,6 +12,8 @@ import java.util.List;
 public class PostsInfo {
     private long postsId;
     private String caption;
+    private long totalFeel;
+    private long totalComment;
     private List<PostsUserInfo> postsUserList;
     private List<PostsCommentInfo> postsCommentList;
     private List<PostsFeelInfo> postsFeelList;

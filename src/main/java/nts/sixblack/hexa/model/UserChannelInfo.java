@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserChannelInfo {
     private long userChannelId;
     private long userId;
-    private String userName;
+    private String name;
     private String image;
 }
