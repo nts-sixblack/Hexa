@@ -15,7 +15,7 @@ public class PostsComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long postsCommentId;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String comment;
 
     @ManyToOne

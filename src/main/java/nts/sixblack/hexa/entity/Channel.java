@@ -17,9 +17,9 @@ public class Channel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long channelId;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String name;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String decription;
 
     @OneToMany(mappedBy = "channel")

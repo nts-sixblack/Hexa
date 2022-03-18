@@ -17,9 +17,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String firstName;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String lastName;
     @Column(columnDefinition = "varchar(255)")
     private String avatar;
@@ -27,7 +27,7 @@ public class User {
     private String background;
     private String email;
     private String password;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String name;
     private String phone;
     private boolean followStatus;

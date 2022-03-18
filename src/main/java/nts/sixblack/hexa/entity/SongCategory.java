@@ -17,7 +17,7 @@ public class SongCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long songCategoryId;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String name;
 
     @OneToMany(mappedBy = "songCategory")

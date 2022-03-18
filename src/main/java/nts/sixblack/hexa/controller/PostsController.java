@@ -5,8 +5,11 @@ import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
 import nts.sixblack.hexa.model.PostsInfo;
+import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("posts")
 public class PostsController {
 
@@ -29,45 +32,49 @@ public class PostsController {
     PostsCommentService postsCommentService;
 
     @PostMapping("new")
-    public String newPosts(@RequestBody PostsForm postsForm){
-        return postsForm.getCaption();
-    }
-
-    @GetMapping("uploadFile")
-    public String newFile(Model model){
-        model.addAttribute("postsForm",new PostsForm());
-        return "abc";
+    public ResponseEntity<ResponseObject> newPosts(@RequestBody PostsForm postsForm){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","newPost", postsForm.getCaption())
+        );
     }
 
     @PostMapping("uploadFile")
-    @ResponseBody
-    public PostsInfo newFile(@ModelAttribute("postsForm") PostsForm postsForm){
-        return postsService.newPosts(postsForm);
+    public ResponseEntity<ResponseObject> newFile(@ModelAttribute("postsForm") PostsForm postsForm){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đăng posts thanh công", postsService.newPosts(postsForm))
+        );
 //        return "ok";
     }
 
     @PostMapping("like")
-    @ResponseBody
-    public void like(@RequestBody Like like){
+    public ResponseEntity<ResponseObject> like(@RequestBody Like like){
         postsFeelService.like(like);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã like", "")
+        );
     }
 
     @PostMapping("comment")
-    @ResponseBody
-    public void comment(@RequestBody CommentForm commentForm){
+    public ResponseEntity<ResponseObject> comment(@RequestBody CommentForm commentForm){
         postsCommentService.comment(commentForm);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã comment", "")
+        );
     }
 
     @GetMapping("comment/{postsCommentId}")
-    @ResponseBody
-    public void delete(@PathVariable("postsCommentId") long postsCommentId){
+    public ResponseEntity<ResponseObject> delete(@PathVariable("postsCommentId") long postsCommentId){
         postsCommentService.delete(postsCommentId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã xóa comment Posts", "")
+        );
     }
 
     @GetMapping("{postsId}")
-    @ResponseBody
-    public PostsInfo findPostsByPostId(@PathVariable("postsId") long postsId){
-        return postsService.findPostsById(postsId);
+    public ResponseEntity<ResponseObject> findPostsByPostId(@PathVariable("postsId") long postsId){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Thông tin bài đăng", postsService.findPostsById(postsId))
+        );
     }
 
 

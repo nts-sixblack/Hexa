@@ -19,7 +19,7 @@ public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long postsId;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String caption;
 
     @OneToMany(mappedBy = "posts")

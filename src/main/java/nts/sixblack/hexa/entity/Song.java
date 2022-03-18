@@ -17,7 +17,7 @@ public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long songId;
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext")
     private String name;
     @Column(columnDefinition = "varchar(255)")
     private String image;
