@@ -48,7 +48,7 @@ public class FollowController {
     @GetMapping("{userId}/follower")
     public ResponseEntity<ResponseObject> listFollower(@PathVariable("userId") long userId){
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Danh sách người yêu cầu follow", followService.followerList(userId))
+                new ResponseObject("ok","Danh sách người follow", followService.followerList(userId))
         );
     }
 

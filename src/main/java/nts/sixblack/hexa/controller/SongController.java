@@ -4,6 +4,7 @@ import nts.sixblack.hexa.entity.SongComment;
 import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.SongForm;
+import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.SongCategoryInfo;
 import nts.sixblack.hexa.model.SongFeelInfo;
 import nts.sixblack.hexa.model.SongInfo;
@@ -12,13 +13,15 @@ import nts.sixblack.hexa.service.SongCommentService;
 import nts.sixblack.hexa.service.SongFeelService;
 import nts.sixblack.hexa.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("song")
 public class SongController {
     @Autowired
@@ -34,44 +37,48 @@ public class SongController {
     SongCommentService songCommentService;
 
     @GetMapping("categoryList")
-    @ResponseBody
-    public List<SongCategoryInfo> listCategory(){
-        return songCategoryService.listCategory();
-    }
-
-    @GetMapping("uploadFile")
-    public String uploadFile(Model model){
-        model.addAttribute("songForm", new SongForm());
-        return "aaa";
+    public ResponseEntity<ResponseObject> listCategory(){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Danh sách Category", songCategoryService.listCategory())
+        );
     }
 
     @PostMapping("uploadFile")
-    @ResponseBody
-    public SongInfo uploadFile(@ModelAttribute("songForm") SongForm songForm){
-        return songService.newSong(songForm);
+    public ResponseEntity<ResponseObject> uploadFile(@ModelAttribute("songForm") SongForm songForm){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Danh sách Category", songService.newSong(songForm))
+        );
     }
 
     @GetMapping("{songId}")
-    @ResponseBody
-    public SongInfo findSongById(@PathVariable("songId") long songId){
-        return songService.findSongById(songId);
+    public ResponseEntity<ResponseObject> findSongById(@PathVariable("songId") long songId){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Thông tin bài hát", songService.findSongById(songId))
+        );
     }
 
     @GetMapping("list/{categoryId}")
-    @ResponseBody
-    public List<SongInfo> findSongByCategoryId(@PathVariable("categoryId") long categoryId){
-        return songService.findListSongByCategoryId(categoryId);
+    public ResponseEntity<ResponseObject> findSongByCategoryId(@PathVariable("categoryId") long categoryId){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Danh sách bài hát theo thể loại", songService.findListSongByCategoryId(categoryId))
+        );
     }
 
     @PostMapping("like")
-    @ResponseBody
-    public void like(@RequestBody Like like){
+    public ResponseEntity<ResponseObject> like(@RequestBody Like like){
         songFeelService.like(like);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã like", "" )
+        );
+
     }
 
     @PostMapping("comment")
-    @ResponseBody
-    public void comment(@RequestBody CommentForm commentForm){
+    public ResponseEntity<ResponseObject> comment(@RequestBody CommentForm commentForm){
         songCommentService.comment(commentForm);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã comment", "")
+        );
+
     }
 }
