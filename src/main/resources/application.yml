@@ -1,0 +1,26 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAULKD23ZB5MORSL5W
+      secret-key: 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
+    region:
+      static: ap-southeast-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: nts-sixblack-hexa
+  security:
+    secret-key: iamsixblack
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+server:
+  port: 9090
