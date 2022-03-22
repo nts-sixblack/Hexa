@@ -3,18 +3,23 @@ package nts.sixblack.hexa.service.impl;
 import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.LoginForm;
 import nts.sixblack.hexa.form.RegisterForm;
+import nts.sixblack.hexa.form.UserImageForm;
+import nts.sixblack.hexa.form.UserNameForm;
 import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.UserRepository;
 import nts.sixblack.hexa.service.PostsService;
+import nts.sixblack.hexa.service.StorageService;
 import nts.sixblack.hexa.service.UserService;
 import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    StorageService storageService;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
+    @Value("${application.bucket.name}")
+    private String bucketName;
 
     @Override
     public void changeFollowStatus(long userId) {
@@ -95,12 +109,107 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             return null;
         }
-
     }
 
     @Override
     public UserInfo information(long userId) {
         User user = userRepository.findByUserId(userId);
+        if(user == null){
+            return null;
+        }
+        UserInfo userInfo = new UserInfo();
+
+        userInfo.setUserId(user.getUserId());
+        userInfo.setFirstName(user.getFirstName());
+        userInfo.setLastName(user.getLastName());
+        userInfo.setAvatar(user.getAvatar());
+        userInfo.setBackground(user.getBackground());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setName(user.getName());
+        userInfo.setPhone(user.getPhone());
+        userInfo.setFollowStatus(user.getFollowStatus());
+        System.out.println(userInfo.isFollowStatus());
+
+        if (userInfo.isFollowStatus()==true){
+            List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);
+            userInfo.setPostsList(postsInfoList);
+        }
+
+        return userInfo;
+    }
+
+    @Override
+    public UserDetails getUserByUserId(long userId) {
+        User user = userRepository.findByUserId(userId);
+        return new CustomUserDetail(user);
+    }
+
+    @Override
+    public List<UserInfo> getUserByName(String name) {
+        List<User> list = userRepository.findUserByNameContaining(name);
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        for (User user :list){
+            UserInfo userInfo = new UserInfo();
+
+            userInfo.setUserId(user.getUserId());
+            userInfo.setFirstName(user.getFirstName());
+            userInfo.setLastName(user.getLastName());
+            userInfo.setAvatar(user.getAvatar());
+            userInfo.setBackground(user.getBackground());
+            userInfo.setEmail(user.getEmail());
+            userInfo.setName(user.getName());
+            userInfo.setPhone(user.getPhone());
+            userInfo.setFollowStatus(user.getFollowStatus());
+
+            userInfoList.add(userInfo);
+        }
+
+        return userInfoList;
+    }
+
+    @Override
+    public void updateAvatar(UserImageForm userImageForm) {
+        String avatar = "https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(userImageForm.getFile());
+        User user = userRepository.findByUserId(userImageForm.getUserId());
+        user.setAvatar(avatar);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deteleAvatar(long userId) {
+        User user = userRepository.findByUserId(userId);
+        user.setAvatar(null);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateBackground(UserImageForm userImageForm) {
+        String background = "https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(userImageForm.getFile());
+        User user = userRepository.findByUserId(userImageForm.getUserId());
+        user.setBackground(background);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deteleBackground(long userId) {
+        User user = userRepository.findByUserId(userId);
+        user.setBackground(null);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void changeName(UserNameForm userNameForm) {
+        User user = userRepository.findByUserId(userNameForm.getUserId());
+        user.setFirstName(userNameForm.getFirstName());
+        user.setLastName(userNameForm.getLastName());
+        user.setName(userNameForm.getFirstName()+" "+userNameForm.getLastName());
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserInfo getByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+
         UserInfo userInfo = new UserInfo();
 
         userInfo.setUserId(user.getUserId());
@@ -113,20 +222,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setPhone(user.getPhone());
         userInfo.setFollowStatus(user.getFollowStatus());
 
-        if (userInfo.isFollowStatus()==true){
-            List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);
-            userInfo.setPostsList(postsInfoList);
-        } else {
-
-        }
-
         return userInfo;
-    }
-
-    @Override
-    public UserDetails getUserByUserId(long userId) {
-        User user = userRepository.findByUserId(userId);
-        return new CustomUserDetail(user);
     }
 
     @Override

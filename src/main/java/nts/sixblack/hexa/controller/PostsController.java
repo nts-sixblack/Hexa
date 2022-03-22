@@ -77,5 +77,12 @@ public class PostsController {
         );
     }
 
-
+    @DeleteMapping("{postsId}")
+    public ResponseEntity<ResponseObject> deletePosts(@PathVariable("postsId") long postsId){
+        System.out.println(postsId);
+        postsService.delete(postsId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đẵ xóa", postsService.findPostsById(postsId))
+        );
+    }
 }

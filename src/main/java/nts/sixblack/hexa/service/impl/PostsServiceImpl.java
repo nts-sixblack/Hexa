@@ -47,13 +47,22 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public PostsInfo newPosts(PostsForm postsForm) {
+        User user = new User();
+        user.setUserId(postsForm.getUserId());
+
         Posts posts = new Posts();
         posts.setCaption(postsForm.getCaption());
+        Posts p = postsRepository.save(posts);
 
         PostsImage postsImage = new PostsImage();
         postsImage.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(postsForm.getFiles()));
-        postsImage.setPosts(postsRepository.save(posts));
+        postsImage.setPosts(p);
         postsImageService.save(postsImage);
+
+        PostsUser postsUser = new PostsUser();
+        postsUser.setUser(user);
+        postsUser.setPosts(p);
+        postsUserRepository.save(postsUser);
 
         PostsInfo postsInfo = new PostsInfo();
         postsInfo.setCaption(postsForm.getCaption());
@@ -106,6 +115,11 @@ public class PostsServiceImpl implements PostsService {
         }
         return postsInfoList;
 //        return null;
+    }
+
+    @Override
+    public void delete(long postsId) {
+        Posts posts = postsRepository.findByPostsId(postsId);
     }
 
 

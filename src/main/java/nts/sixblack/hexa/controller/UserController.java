@@ -1,12 +1,11 @@
 package nts.sixblack.hexa.controller;
 
-import nts.sixblack.hexa.entity.User;
-import nts.sixblack.hexa.form.LoginForm;
-import nts.sixblack.hexa.form.RegisterForm;
+import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.jwt.JwtTokenProvider;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.service.UserService;
+import nts.sixblack.hexa.service.impl.UserServiceImpl;
 import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +14,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -45,8 +41,10 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtTokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
+        UserInfo userInfo = userService.getByEmail(loginForm.getUserName());
+        userInfo.setToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Đăng nhập thành công", token)
+                new ResponseObject("ok","Đăng nhập thành công", userInfo)
         );
 
 //        return ResponseEntity.status(HttpStatus.OK).body(
@@ -56,9 +54,21 @@ public class UserController {
 
     @PostMapping("register")
     public ResponseEntity<ResponseObject> register(@RequestBody RegisterForm registerForm){
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Đăng ký thành công", userService.register(registerForm))
-        );
+        UserInfo userInfo = userService.register(registerForm);
+        if (userInfo!=null){
+
+            LoginForm loginForm = new LoginForm();
+            loginForm.setUserName(registerForm.getEmail());
+            loginForm.setPassword(registerForm.getPassword());
+
+            return login(loginForm);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("ok","Đăng ký thất bại", "Đã tồn tại email")
+            );
+        }
+
     }
 
     @GetMapping("{userId}")
@@ -70,10 +80,65 @@ public class UserController {
             );
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject("ok","Thông tin người dùng", userInfo )
+                    new ResponseObject("ok","Không tìm thấy người này", "" )
             );
         }
+    }
 
+    @GetMapping("name={value}")
+    public ResponseEntity<ResponseObject> findByName(@PathVariable("value") String name){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Danh sách người dùng theo tên", userService.getUserByName(name) )
+        );
+    }
+
+    @PostMapping("/updateAvatar")
+    public ResponseEntity<ResponseObject> updateAvatar(@ModelAttribute("userImageForm") UserImageForm userImageForm){
+
+        userService.updateAvatar(userImageForm);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok", "Đã cập nhập avatar", "")
+        );
+    }
+
+    @DeleteMapping("/deleteAvatar/{userId}")
+    public ResponseEntity<ResponseObject> deleteAvatar(@PathVariable("userId") long userId){
+
+        userService.deteleAvatar(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok", "Đã xóa avatar", "")
+        );
+    }
+
+    @PostMapping("/updateBackground")
+    public ResponseEntity<ResponseObject> updateBackground(@ModelAttribute("userImageForm") UserImageForm userImageForm){
+
+        userService.updateBackground(userImageForm);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok", "Đã cập nhập ảnh nền", "")
+        );
+    }
+
+    @DeleteMapping("/deleteBackground/{userId}")
+    public ResponseEntity<ResponseObject> deleteBackground(@PathVariable("userId") long userId){
+
+        userService.deteleBackground(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok", "Đã xóa ảnh nền", "")
+        );
+    }
+
+    @PostMapping("/changeName")
+    public ResponseEntity<ResponseObject> changeName(@RequestBody UserNameForm userNameForm){
+
+        userService.changeName(userNameForm);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok", "Đã thay đổi tên", "")
+        );
     }
 
 

@@ -9,4 +9,6 @@ public interface PostsService {
     PostsInfo newPosts(PostsForm postsForm);
     PostsInfo findPostsById(long postsId);
     List<PostsInfo> findListPostsByUserId(long userId);
+    void delete(long postsId);
+
 }

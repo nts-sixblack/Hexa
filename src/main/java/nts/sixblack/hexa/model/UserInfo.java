@@ -21,8 +21,9 @@ public class UserInfo {
     private String name;
     private String phone;
     private boolean followStatus;
+    private String token;
 
-//    private List<PostsUserInfo> postsUserList;
+    //    private List<PostsUserInfo> postsUserList;
 //    private List<PostsFeelInfo> postsFeelList;
 //    private List<PostsCommentInfo> postsCommentList;
 //    private List<UserChannelInfo> userChannelList;

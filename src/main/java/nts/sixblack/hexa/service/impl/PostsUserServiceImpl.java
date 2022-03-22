@@ -35,4 +35,10 @@ public class PostsUserServiceImpl implements PostsUserService {
 
         return postsUserInfoList;
     }
+
+    @Override
+    public void save(PostsUser postsUser) {
+        postsUserRepository.save(postsUser);
+        System.out.println("save posts user");
+    }
 }
