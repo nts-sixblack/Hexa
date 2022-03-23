@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Posts;
 import nts.sixblack.hexa.entity.PostsImage;
 import nts.sixblack.hexa.model.PostsImageInfo;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class PostsImageServiceImpl implements PostsImageService {
 
     @Override
     public PostsImage save(PostsImage postsImage) {
+        postsImage.setDateCreate(new Date());
         return postsImageRepository.save(postsImage);
     }
 
@@ -31,6 +34,7 @@ public class PostsImageServiceImpl implements PostsImageService {
             PostsImageInfo postsImageInfo = new PostsImageInfo();
             postsImageInfo.setPostsImageId(postsImage.getPostsImageId());
             postsImageInfo.setImage(postsImage.getImage());
+            postsImageInfo.setDateCreate(TimeConfig.getTime(postsImage.getDateCreate()));
 
             postsImageInfoList.add(postsImageInfo);
         }

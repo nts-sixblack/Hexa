@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -31,6 +32,9 @@ public class User {
     private String name;
     private String phone;
     private boolean followStatus;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
+
 
     public void setFollowStatus(boolean followStatus){
         this.followStatus = followStatus;

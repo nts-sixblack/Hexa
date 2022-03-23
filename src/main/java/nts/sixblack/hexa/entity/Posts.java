@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,6 +22,8 @@ public class Posts {
     private long postsId;
 //    @Column(columnDefinition = "ntext")
     private String caption;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
     @OneToMany(mappedBy = "posts")
     @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)

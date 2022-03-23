@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,7 +39,7 @@ public class PostsUserServiceImpl implements PostsUserService {
 
     @Override
     public void save(PostsUser postsUser) {
+        postsUser.setDateCreate(new Date());
         postsUserRepository.save(postsUser);
-        System.out.println("save posts user");
     }
 }

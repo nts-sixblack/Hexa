@@ -10,6 +10,8 @@ import nts.sixblack.hexa.service.UserChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ContactServiceImpl implements ContactService {
     @Autowired
@@ -41,6 +43,7 @@ public class ContactServiceImpl implements ContactService {
         contact.setChannel(channel);
         contact.setUser1(user1);
         contact.setUser2(user2);
+        contact.setDateCreate(new Date());
 
         userChannelService.newUserChannel(user1, user2, channel.getChannelId());
 

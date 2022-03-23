@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,5 +16,6 @@ public class ListSongInfo {
     private String nameOfList;
     private String name;
     private String image;
+    private String dateCreate;
     private List<ListSongItemInfo> listSongItemList;
 }

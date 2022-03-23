@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Song;
 import nts.sixblack.hexa.entity.SongFeel;
 import nts.sixblack.hexa.entity.User;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +34,7 @@ public class SongFeelServiceImpl implements SongFeelService {
             songFeelInfo.setUserId(songFeel.getUser().getUserId());
             songFeelInfo.setImage(songFeel.getUser().getAvatar());
             songFeelInfo.setName(songFeel.getUser().getName());
+            songFeelInfo.setDateCreate(TimeConfig.getTime(songFeel.getDateCreate()));
 
             songFeelInfoList.add(songFeelInfo);
         }
@@ -53,6 +56,7 @@ public class SongFeelServiceImpl implements SongFeelService {
             songFeel.setFeel(true);
             songFeel.setSong(song);
             songFeel.setUser(user);
+            songFeel.setDateCreate(new Date());
 
             songFeelRepository.save(songFeel);
         }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -15,6 +16,8 @@ public class ListSongItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long listSongItemId;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
     @ManyToOne
     @JoinColumn(name = "songId")

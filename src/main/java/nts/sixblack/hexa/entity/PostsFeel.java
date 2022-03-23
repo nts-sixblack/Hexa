@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +17,8 @@ public class PostsFeel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long postsFeelId;
     private boolean feel;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
     @ManyToOne
     @JoinColumn(name = "postsId")

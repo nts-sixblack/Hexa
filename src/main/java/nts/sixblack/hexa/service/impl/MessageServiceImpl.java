@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Channel;
 import nts.sixblack.hexa.entity.Message;
 import nts.sixblack.hexa.entity.User;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +31,7 @@ public class MessageServiceImpl implements MessageService {
         message.setMessage(messageForm.getMessage());
         message.setChannel(channel);
         message.setUser(user);
+        message.setDateCreate(new Date());
 
         return messageRepository.save(message);
     }
@@ -45,6 +48,7 @@ public class MessageServiceImpl implements MessageService {
             messageInfo.setUserId(message.getUser().getUserId());
             messageInfo.setImage(message.getUser().getAvatar());
             messageInfo.setName(message.getUser().getName());
+            messageInfo.setDateCreate(TimeConfig.getTime(message.getDateCreate()));
             messageInfoList.add(messageInfo);
         }
         return messageInfoList;

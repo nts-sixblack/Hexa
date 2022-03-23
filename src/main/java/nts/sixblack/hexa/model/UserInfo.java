@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,6 +23,7 @@ public class UserInfo {
     private String phone;
     private boolean followStatus;
     private String token;
+    private String dateCreate;
 
     //    private List<PostsUserInfo> postsUserList;
 //    private List<PostsFeelInfo> postsFeelList;

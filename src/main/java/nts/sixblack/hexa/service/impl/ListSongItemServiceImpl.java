@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.ListSong;
 import nts.sixblack.hexa.entity.ListSongItem;
 import nts.sixblack.hexa.entity.Song;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +33,7 @@ public class ListSongItemServiceImpl implements ListSongItemService {
         ListSongItem listSongItem = new ListSongItem();
         listSongItem.setListSong(listSong);
         listSongItem.setSong(song);
+        listSongItem.setDateCreate(new Date());
         listSongItemRepository.save(listSongItem);
     }
 
@@ -52,6 +55,7 @@ public class ListSongItemServiceImpl implements ListSongItemService {
             ListSongItemInfo listSongItemInfo = new ListSongItemInfo();
             listSongItemInfo.setListSongItemId(listSongItem.getListSongItemId());
             listSongItemInfo.setSong(songInfo);
+            listSongItemInfo.setDateCreate(TimeConfig.getTime(listSongItem.getDateCreate()));
 
             listSongItemInfoList.add(listSongItemInfo);
         }

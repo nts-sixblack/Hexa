@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Posts;
 import nts.sixblack.hexa.entity.PostsFeel;
 import nts.sixblack.hexa.entity.User;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +39,7 @@ public class PostsFeelServiceImpl implements PostsFeelService {
 
     @Override
     public void save(PostsFeel postsFeel) {
+        postsFeel.setDateCreate(new Date());
         postsFeelRepository.save(postsFeel);
     }
 
@@ -71,6 +74,7 @@ public class PostsFeelServiceImpl implements PostsFeelService {
             postsFeelInfo.setPostsFeelId(postsFeel.getPostsFeelId());
             postsFeelInfo.setFeel(postsFeel.isFeel());
             postsFeelInfo.setPostsId(postsFeel.getPosts().getPostsId());
+            postsFeelInfo.setDateCreate(TimeConfig.getTime(postsFeel.getDateCreate()));
 
             postsFeelInfoList.add(postsFeelInfo);
         }

@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.*;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -52,6 +54,7 @@ public class PostsServiceImpl implements PostsService {
 
         Posts posts = new Posts();
         posts.setCaption(postsForm.getCaption());
+        posts.setDateCreate(new Date());
         Posts p = postsRepository.save(posts);
 
         PostsImage postsImage = new PostsImage();
@@ -85,6 +88,7 @@ public class PostsServiceImpl implements PostsService {
         PostsInfo postsInfo = new PostsInfo();
         postsInfo.setPostsId(posts.getPostsId());
         postsInfo.setCaption(posts.getCaption());
+        postsInfo.setDateCreate(TimeConfig.getTime(posts.getDateCreate()));
 
         List<PostsUserInfo> postsUserInfoList = postsUserService.findListPostsUserByPostId(postsId);
         postsInfo.setPostsUserList(postsUserInfoList);

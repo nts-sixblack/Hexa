@@ -5,10 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostsImageInfo {
     private long postsImageId;
     private String image;
+    private String dateCreate;
+
 }

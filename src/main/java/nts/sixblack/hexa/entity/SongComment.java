@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +18,8 @@ public class SongComment {
     private long songCommentId;
 //    @Column(columnDefinition = "ntext")
     private String comment;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
     @ManyToOne
     @JoinColumn(name = "userId")

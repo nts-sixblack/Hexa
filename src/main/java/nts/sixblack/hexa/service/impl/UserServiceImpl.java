@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.LoginForm;
 import nts.sixblack.hexa.form.RegisterForm;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -92,6 +94,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user1.setPassword(passwordEncoder.encode(registerForm.getPassword()));
             user1.setName(registerForm.getFirstName()+" "+registerForm.getLastName());
             user1.setFollowStatus(true);
+            user1.setDateCreate(new Date());
 
             User user = userRepository.save(user1);
 
@@ -128,7 +131,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setName(user.getName());
         userInfo.setPhone(user.getPhone());
         userInfo.setFollowStatus(user.getFollowStatus());
-        System.out.println(userInfo.isFollowStatus());
+        userInfo.setDateCreate(TimeConfig.getTime(user.getDateCreate()));
 
         if (userInfo.isFollowStatus()==true){
             List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);

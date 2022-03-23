@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,11 +43,13 @@ public class UserChannelServiceImpl implements UserChannelService {
         UserChannel userChannel1 = new UserChannel();
         userChannel1.setChannel(channel);
         userChannel1.setUser(user1);
+        userChannel1.setDateCreate(new Date());
         userChannelRepository.save(userChannel1);
 
         UserChannel userChannel2 = new UserChannel();
         userChannel2.setChannel(channel);
         userChannel2.setUser(user2);
+        userChannel2.setDateCreate(new Date());
         userChannelRepository.save(userChannel2);
     }
 }

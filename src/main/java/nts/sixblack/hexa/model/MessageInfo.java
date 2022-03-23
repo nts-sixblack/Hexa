@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,4 +16,6 @@ public class MessageInfo {
     private String image;
     private String name;
     private long channelId;
+    private String dateCreate;
+
 }

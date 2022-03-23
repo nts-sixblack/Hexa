@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Song;
 import nts.sixblack.hexa.entity.SongCategory;
 import nts.sixblack.hexa.form.SongForm;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,6 +50,7 @@ public class SongServiceImpl implements SongService {
         song.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(songForm.getImage()));
         song.setSong("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(songForm.getSong()));
         song.setSongCategory(songCategory);
+        song.setDateCreate(new Date());
 
         SongInfo songInfo = new SongInfo();
         songInfo.setSongId(songRepository.save(song).getSongId());
@@ -67,6 +70,7 @@ public class SongServiceImpl implements SongService {
         songInfo.setName(song.getName());
         songInfo.setImage(song.getImage());
         songInfo.setSong(song.getSong());
+        songInfo.setDateCreate(TimeConfig.getTime(song.getDateCreate()));
 
         List<SongFeelInfo> songFeelInfoList = songFeelService.findListFeelBySongId(songId);
         songInfo.setSongFeelList(songFeelInfoList);

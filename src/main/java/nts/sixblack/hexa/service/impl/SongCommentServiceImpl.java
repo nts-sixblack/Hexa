@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Song;
 import nts.sixblack.hexa.entity.SongComment;
 import nts.sixblack.hexa.entity.User;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +33,7 @@ public class SongCommentServiceImpl implements SongCommentService {
             songCommentInfo.setUserId(songComment.getUser().getUserId());
             songCommentInfo.setImage(songComment.getUser().getAvatar());
             songCommentInfo.setName(songComment.getUser().getName());
+            songCommentInfo.setDateCreate(TimeConfig.getTime(songComment.getDateCreate()));
 
             songCommentInfoList.add(songCommentInfo);
         }
@@ -47,6 +50,7 @@ public class SongCommentServiceImpl implements SongCommentService {
         songComment.setComment(commentForm.getComment());
         songComment.setUser(user);
         songComment.setSong(song);
+        songComment.setDateCreate(new Date());
 
         songCommentRepository.save(songComment);
     }

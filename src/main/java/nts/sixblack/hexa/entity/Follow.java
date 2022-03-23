@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +17,8 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long followId;
     private boolean status;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
 
     @ManyToOne

@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Posts;
 import nts.sixblack.hexa.entity.PostsComment;
 import nts.sixblack.hexa.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +34,7 @@ public class PostsCommentServiceImpl implements PostsCommentService {
         postsComment.setComment(commentForm.getComment());
         postsComment.setPosts(posts);
         postsComment.setUser(user);
+        postsComment.setDateCreate(new Date());
         postsCommentRepository.save(postsComment);
     }
 
@@ -54,6 +57,7 @@ public class PostsCommentServiceImpl implements PostsCommentService {
             postsCommentInfo.setUserId(postsComment.getUser().getUserId());
             postsCommentInfo.setImage(postsComment.getUser().getAvatar());
             postsCommentInfo.setName(postsComment.getUser().getName());
+            postsCommentInfo.setDateCreate(TimeConfig.getTime(postsComment.getDateCreate()));
 
             postsCommentInfoList.add(postsCommentInfo);
         }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,6 +22,8 @@ public class Channel {
     private String name;
 //    @Column(columnDefinition = "ntext")
     private String decription;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
     @OneToMany(mappedBy = "channel")
     @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
