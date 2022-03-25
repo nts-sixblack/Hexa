@@ -2,10 +2,11 @@ package nts.sixblack.hexa.controller;
 
 import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.jwt.JwtTokenProvider;
+import nts.sixblack.hexa.model.FollowInfo;
+import nts.sixblack.hexa.model.MessageInfo;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.service.UserService;
-import nts.sixblack.hexa.service.impl.UserServiceImpl;
 import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -85,7 +85,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("name={value}")
+    @GetMapping("/find/name={value}")
     public ResponseEntity<ResponseObject> findByName(@PathVariable("value") String name){
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người dùng theo tên", userService.getUserByName(name) )
@@ -139,6 +139,18 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "Đã thay đổi tên", "")
         );
+    }
+
+    @GetMapping("/hmmhmm")
+    public FollowInfo check(){
+        FollowInfo followInfo = new FollowInfo();
+        followInfo.setFollowId(1);
+        followInfo.setStatus(true);
+        followInfo.setUserId(123);
+        followInfo.setUserName("SixBlack");
+        followInfo.setUserImage("hmm");
+        followInfo.setDateCreate("2./02");
+        return followInfo;
     }
 
 
