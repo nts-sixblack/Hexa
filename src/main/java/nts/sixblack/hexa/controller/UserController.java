@@ -64,8 +64,8 @@ public class UserController {
             return login(loginForm);
 
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok","Đăng ký thất bại", "Đã tồn tại email")
+            return ResponseEntity.status(HttpStatus.FOUND).body(
+                    new ResponseObject("faul","Đăng ký thất bại", "Đã tồn tại email")
             );
         }
 
