@@ -45,7 +45,7 @@ public class ListSongServiceImpl implements ListSongService {
         listSongInfo.setUserId(listSong1.getUser().getUserId());
         listSongInfo.setName(listSong1.getUser().getName());
         listSongInfo.setImage(listSong1.getUser().getAvatar());
-        listSongInfo.setDateCreate(TimeConfig.getTime(listSong.getDateCreate()));
+        listSongInfo.setDateCreate(listSong.getDateCreate());
 
         return listSongInfo;
     }
@@ -81,7 +81,7 @@ public class ListSongServiceImpl implements ListSongService {
             ListSongInfo listSongInfo = new ListSongInfo();
             listSongInfo.setListSongId(listSong.getListSongId());
             listSongInfo.setNameOfList(listSong.getName());
-            listSongInfo.setDateCreate(TimeConfig.getTime(listSong.getDateCreate()));
+            listSongInfo.setDateCreate(listSong.getDateCreate());
             listSongInfoList.add(listSongInfo);
         }
         return listSongInfoList;

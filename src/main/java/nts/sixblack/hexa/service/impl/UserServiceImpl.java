@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setName(user.getName());
         userInfo.setPhone(user.getPhone());
         userInfo.setFollowStatus(user.getFollowStatus());
-        userInfo.setDateCreate(TimeConfig.getTime(user.getDateCreate()));
+        userInfo.setDateCreate(user.getDateCreate());
 
         if (userInfo.isFollowStatus()==true){
             List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);

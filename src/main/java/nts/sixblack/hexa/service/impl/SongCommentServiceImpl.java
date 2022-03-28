@@ -33,7 +33,7 @@ public class SongCommentServiceImpl implements SongCommentService {
             songCommentInfo.setUserId(songComment.getUser().getUserId());
             songCommentInfo.setImage(songComment.getUser().getAvatar());
             songCommentInfo.setName(songComment.getUser().getName());
-            songCommentInfo.setDateCreate(TimeConfig.getTime(songComment.getDateCreate()));
+            songCommentInfo.setDateCreate(songComment.getDateCreate());
 
             songCommentInfoList.add(songCommentInfo);
         }

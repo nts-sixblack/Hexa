@@ -88,7 +88,7 @@ public class PostsServiceImpl implements PostsService {
         PostsInfo postsInfo = new PostsInfo();
         postsInfo.setPostsId(posts.getPostsId());
         postsInfo.setCaption(posts.getCaption());
-        postsInfo.setDateCreate(TimeConfig.getTime(posts.getDateCreate()));
+        postsInfo.setDateCreate(posts.getDateCreate());
 
         List<PostsUserInfo> postsUserInfoList = postsUserService.findListPostsUserByPostId(postsId);
         postsInfo.setPostsUserList(postsUserInfoList);

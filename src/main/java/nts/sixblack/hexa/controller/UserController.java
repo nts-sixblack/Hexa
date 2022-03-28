@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -149,7 +151,7 @@ public class UserController {
         followInfo.setUserId(123);
         followInfo.setUserName("SixBlack");
         followInfo.setUserImage("hmm");
-        followInfo.setDateCreate("2./02");
+        followInfo.setDateCreate(new Date());
         return followInfo;
     }
 

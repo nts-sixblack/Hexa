@@ -15,7 +15,7 @@ public class SongFeelInfo {
     private long userId;
     private String name;
     private String image;
-    private String dateCreate;
+    private Date dateCreate;
 
 }
 

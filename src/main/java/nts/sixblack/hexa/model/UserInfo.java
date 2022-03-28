@@ -23,7 +23,7 @@ public class UserInfo {
     private String phone;
     private boolean followStatus;
     private String token;
-    private String dateCreate;
+    private Date dateCreate;
 
     //    private List<PostsUserInfo> postsUserList;
 //    private List<PostsFeelInfo> postsFeelList;

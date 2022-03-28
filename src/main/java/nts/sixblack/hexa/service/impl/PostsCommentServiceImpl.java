@@ -57,7 +57,7 @@ public class PostsCommentServiceImpl implements PostsCommentService {
             postsCommentInfo.setUserId(postsComment.getUser().getUserId());
             postsCommentInfo.setImage(postsComment.getUser().getAvatar());
             postsCommentInfo.setName(postsComment.getUser().getName());
-            postsCommentInfo.setDateCreate(TimeConfig.getTime(postsComment.getDateCreate()));
+            postsCommentInfo.setDateCreate(postsComment.getDateCreate());
 
             postsCommentInfoList.add(postsCommentInfo);
         }

@@ -74,7 +74,7 @@ public class PostsFeelServiceImpl implements PostsFeelService {
             postsFeelInfo.setPostsFeelId(postsFeel.getPostsFeelId());
             postsFeelInfo.setFeel(postsFeel.isFeel());
             postsFeelInfo.setPostsId(postsFeel.getPosts().getPostsId());
-            postsFeelInfo.setDateCreate(TimeConfig.getTime(postsFeel.getDateCreate()));
+            postsFeelInfo.setDateCreate(postsFeel.getDateCreate());
 
             postsFeelInfoList.add(postsFeelInfo);
         }

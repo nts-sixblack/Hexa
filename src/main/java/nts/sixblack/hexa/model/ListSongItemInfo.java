@@ -12,6 +12,6 @@ import java.util.Date;
 public class ListSongItemInfo {
     private long listSongItemId;
     private SongInfo song;
-    private String dateCreate;
+    private Date dateCreate;
 
 }

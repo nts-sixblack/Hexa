@@ -16,6 +16,6 @@ public class MessageInfo {
     private String image;
     private String name;
     private long channelId;
-    private String dateCreate;
+    private Date dateCreate;
 
 }
