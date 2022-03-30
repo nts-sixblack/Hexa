@@ -75,6 +75,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userInfo.setPhone(user.getPhone());
             userInfo.setFollowStatus(user.getFollowStatus());
 
+            userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
+            userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
+            userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
+
             return userInfo;
         } else {
             return null;
@@ -108,6 +112,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userInfo.setName(user.getName());
             userInfo.setPhone(user.getPhone());
             userInfo.setFollowStatus(user.getFollowStatus());
+
+            userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
+            userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
+            userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
 
             return userInfo;
         } else {
@@ -229,6 +237,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setName(user.getName());
         userInfo.setPhone(user.getPhone());
         userInfo.setFollowStatus(user.getFollowStatus());
+
+        userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
+        userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
+        userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
 
         return userInfo;
     }
