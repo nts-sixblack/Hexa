@@ -4,6 +4,7 @@ import nts.sixblack.hexa.entity.PostsImage;
 import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
+import nts.sixblack.hexa.jwt.JwtValue;
 import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.service.*;
@@ -15,7 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -30,6 +34,9 @@ public class PostsController {
 
     @Autowired
     PostsCommentService postsCommentService;
+
+    @Autowired
+    JwtValue jwtValue;
 
     @PostMapping("new")
     public ResponseEntity<ResponseObject> newPosts(@RequestBody PostsForm postsForm){
@@ -72,6 +79,7 @@ public class PostsController {
 
     @GetMapping("{postsId}")
     public ResponseEntity<ResponseObject> findPostsByPostId(@PathVariable("postsId") long postsId){
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Thông tin bài đăng", postsService.findPostsById(postsId))
         );
@@ -82,7 +90,41 @@ public class PostsController {
         System.out.println(postsId);
         postsService.delete(postsId);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Đẵ xóa", postsService.findPostsById(postsId))
+                new ResponseObject("ok","Đẵ xóa", "")
+        );
+    }
+
+    @GetMapping("myUserId/{userId}")
+    public ResponseEntity<ResponseObject> findListsPostToShowByMyId(@PathVariable("userId") long userId){
+
+        List<PostsInfo> list = postsService.listPostShow(userId);
+        Collections.sort(list, new Comparator<PostsInfo>() {
+            @Override
+            public int compare(PostsInfo o1, PostsInfo o2) {
+                if (o1.getDateCreate().before(o2.getDateCreate())){
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","List Posts Show", list)
+        );
+    }
+
+    @GetMapping("listPosts/{userId}")
+    public ResponseEntity<ResponseObject> findMyListPosts(@PathVariable("userId") long userId){
+        return ResponseEntity.status(HttpStatus.OK).body(
+            new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId))
+        );
+    }
+
+    @GetMapping("listComment/{postsId}")
+    public ResponseEntity<ResponseObject> listCommentByPostsId(@PathVariable("postsId") long postsId){
+        return ResponseEntity.status(HttpStatus.OK).body(
+            new ResponseObject("ok", "list comment ", postsCommentService.findListCommentByPostsId(postsId))
         );
     }
 }

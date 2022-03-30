@@ -40,6 +40,9 @@ public class PostsServiceImpl implements PostsService {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    FollowService followService;
+
 
     @Value("${cloud.aws.region.static}")
     private String region;
@@ -65,6 +68,7 @@ public class PostsServiceImpl implements PostsService {
         PostsUser postsUser = new PostsUser();
         postsUser.setUser(user);
         postsUser.setPosts(p);
+        postsUser.setDateCreate(new Date());
         postsUserRepository.save(postsUser);
 
         PostsInfo postsInfo = new PostsInfo();
@@ -90,19 +94,15 @@ public class PostsServiceImpl implements PostsService {
         postsInfo.setCaption(posts.getCaption());
         postsInfo.setDateCreate(posts.getDateCreate());
 
-        List<PostsUserInfo> postsUserInfoList = postsUserService.findListPostsUserByPostId(postsId);
-        postsInfo.setPostsUserList(postsUserInfoList);
+        postsInfo.setPostsUserList(postsUserService.findListPostsUserByPostId(postsId));
 
-        List<PostsCommentInfo> postsCommentInfoList = postsCommentService.findListCommentByPostsId(postsId);
 //        postsInfo.setPostsCommentList(postsCommentInfoList);
-        postsInfo.setTotalComment(postsCommentInfoList.size());
+        postsInfo.setTotalComment(postsCommentService.findListCommentByPostsId(postsId).size());
 
-        List<PostsFeelInfo> postsFeelInfoList = postsFeelService.findListFeelByPostsId(postsId);
 //        postsInfo.setPostsFeelList(postsFeelInfoList);
-        postsInfo.setTotalFeel(postsFeelInfoList.size());
+        postsInfo.setTotalFeel(postsFeelService.findListFeelByPostsId(postsId).size());
 
-        List<PostsImageInfo> postsImageInfoList = postsImageService.findListImageByPostsId(postsId);
-        postsInfo.setPostsImageList(postsImageInfoList);
+        postsInfo.setPostsImageList(postsImageService.findListImageByPostsId(postsId));
 
         return postsInfo;
     }
@@ -123,7 +123,19 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public void delete(long postsId) {
-        Posts posts = postsRepository.findByPostsId(postsId);
+        postsRepository.deleteById(postsId);
+    }
+
+    @Override
+    public List<PostsInfo> listPostShow(long userId) {
+        List<Long> userIdList = followService.listUserRecipient(userId);
+        List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
+        for (Long id:userIdList){
+            List<PostsInfo> list  = findListPostsByUserId(id);
+            postsInfoList.addAll(list);
+        }
+
+        return postsInfoList;
     }
 
 

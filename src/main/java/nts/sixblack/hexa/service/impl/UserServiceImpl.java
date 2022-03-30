@@ -2,13 +2,11 @@ package nts.sixblack.hexa.service.impl;
 
 import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.User;
-import nts.sixblack.hexa.form.LoginForm;
-import nts.sixblack.hexa.form.RegisterForm;
-import nts.sixblack.hexa.form.UserImageForm;
-import nts.sixblack.hexa.form.UserNameForm;
+import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.UserRepository;
+import nts.sixblack.hexa.service.FollowService;
 import nts.sixblack.hexa.service.PostsService;
 import nts.sixblack.hexa.service.StorageService;
 import nts.sixblack.hexa.service.UserService;
@@ -39,6 +37,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     StorageService storageService;
+
+    @Autowired
+    FollowService followService;
 
     @Value("${cloud.aws.region.static}")
     private String region;
@@ -133,10 +134,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setFollowStatus(user.getFollowStatus());
         userInfo.setDateCreate(user.getDateCreate());
 
-        if (userInfo.isFollowStatus()==true){
-            List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);
-            userInfo.setPostsList(postsInfoList);
-        }
+        userInfo.setNumberOfFollower(followService.followerList(userId).size());
+        userInfo.setNumberOfFollowing(followService.followingList(userId).size());
+        userInfo.setNumberOfPosts(postsService.findListPostsByUserId(userId).size());
+
+//        if (userInfo.isFollowStatus()==true){
+//            List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);
+//            userInfo.setPostsList(postsInfoList);
+//        }
 
         return userInfo;
     }
@@ -226,6 +231,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setFollowStatus(user.getFollowStatus());
 
         return userInfo;
+    }
+
+    @Override
+    public void update(UserForm userForm) {
+        User user = userRepository.findByUserId(userForm.getUserId());
+        System.out.println(user.getName());
+        user.setFirstName(userForm.getFirstName());
+        user.setLastName(userForm.getLastName());
+        user.setName(user.getFirstName()+" "+user.getLastName());
+        user.setPhone(userForm.getPhone());
+        user.setFollowStatus(userForm.isFollowStatus());
+
+        userRepository.save(user);
     }
 
     @Override

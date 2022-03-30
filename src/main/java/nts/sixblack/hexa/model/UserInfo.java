@@ -22,6 +22,9 @@ public class UserInfo {
     private String name;
     private String phone;
     private boolean followStatus;
+    private int numberOfPosts;
+    private int numberOfFollower;
+    private int numberOfFollowing;
     private String token;
     private Date dateCreate;
 
