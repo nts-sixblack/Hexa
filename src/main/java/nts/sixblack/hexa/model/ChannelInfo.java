@@ -14,7 +14,9 @@ public class ChannelInfo {
     private long channelId;
     private String name;
     private String decription;
-    private Date dateCreate;
+//    private Date dateCreate;
+    private String dateCreate;
+
     private List<UserChannelInfo> userChannelList;
     private List<MessageInfo> messageList;
 }

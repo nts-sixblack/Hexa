@@ -26,7 +26,9 @@ public class UserInfo {
     private int numberOfFollower;
     private int numberOfFollowing;
     private String token;
-    private Date dateCreate;
+//    private Date dateCreate;
+
+    private String dateCreate;
 
     //    private List<PostsUserInfo> postsUserList;
 //    private List<PostsFeelInfo> postsFeelList;

@@ -101,11 +101,12 @@ public class PostsController {
         Collections.sort(list, new Comparator<PostsInfo>() {
             @Override
             public int compare(PostsInfo o1, PostsInfo o2) {
-                if (o1.getDateCreate().before(o2.getDateCreate())){
-                    return 1;
-                } else {
-                    return -1;
-                }
+//                if (o1.getDateCreate().before(o2.getDateCreate())){
+//                    return 1;
+//                } else {
+//                    return -1;
+//                }
+                return -o1.getDateCreate().compareTo(o2.getDateCreate());
             }
         });
 

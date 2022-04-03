@@ -55,7 +55,7 @@ public class ListSongItemServiceImpl implements ListSongItemService {
             ListSongItemInfo listSongItemInfo = new ListSongItemInfo();
             listSongItemInfo.setListSongItemId(listSongItem.getListSongItemId());
             listSongItemInfo.setSong(songInfo);
-            listSongItemInfo.setDateCreate(listSongItem.getDateCreate());
+            listSongItemInfo.setDateCreate(TimeConfig.getTime(listSongItem.getDateCreate()));
 
             listSongItemInfoList.add(listSongItemInfo);
         }

@@ -15,6 +15,7 @@ public class SongCommentInfo {
     private long userId;
     private String name;
     private String image;
-    private Date dateCreate;
+//    private Date dateCreate;
+    private String dateCreate;
 
 }

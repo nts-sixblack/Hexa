@@ -70,7 +70,7 @@ public class SongServiceImpl implements SongService {
         songInfo.setName(song.getName());
         songInfo.setImage(song.getImage());
         songInfo.setSong(song.getSong());
-        songInfo.setDateCreate(song.getDateCreate());
+        songInfo.setDateCreate(TimeConfig.getTime(song.getDateCreate()));
 
         List<SongFeelInfo> songFeelInfoList = songFeelService.findListFeelBySongId(songId);
         songInfo.setSongFeelList(songFeelInfoList);

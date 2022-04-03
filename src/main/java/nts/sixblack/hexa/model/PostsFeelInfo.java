@@ -13,6 +13,7 @@ public class PostsFeelInfo {
     private long postsFeelId;
     private boolean feel;
     private long postsId;
-    private Date dateCreate;
+//    private Date dateCreate;
+    private String dateCreate;
 
 }

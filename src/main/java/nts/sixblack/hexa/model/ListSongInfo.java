@@ -16,6 +16,7 @@ public class ListSongInfo {
     private String nameOfList;
     private String name;
     private String image;
-    private Date dateCreate;
+//    private Date dateCreate;
+    private String dateCreate;
     private List<ListSongItemInfo> listSongItemList;
 }

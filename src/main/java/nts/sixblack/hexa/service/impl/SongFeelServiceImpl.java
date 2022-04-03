@@ -34,7 +34,7 @@ public class SongFeelServiceImpl implements SongFeelService {
             songFeelInfo.setUserId(songFeel.getUser().getUserId());
             songFeelInfo.setImage(songFeel.getUser().getAvatar());
             songFeelInfo.setName(songFeel.getUser().getName());
-            songFeelInfo.setDateCreate(songFeel.getDateCreate());
+            songFeelInfo.setDateCreate(TimeConfig.getTime(songFeel.getDateCreate()));
 
             songFeelInfoList.add(songFeelInfo);
         }

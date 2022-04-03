@@ -48,7 +48,7 @@ public class MessageServiceImpl implements MessageService {
             messageInfo.setUserId(message.getUser().getUserId());
             messageInfo.setImage(message.getUser().getAvatar());
             messageInfo.setName(message.getUser().getName());
-            messageInfo.setDateCreate(message.getDateCreate());
+            messageInfo.setDateCreate(TimeConfig.getTime(message.getDateCreate()));
             messageInfoList.add(messageInfo);
         }
         return messageInfoList;

@@ -14,6 +14,7 @@ public class ContactInfo {
     private long userId1;
     private long userId2;
     private long channelId;
-    private Date dateCreate;
+//    private Date dateCreate;
+    private String dateCreate;
 
 }

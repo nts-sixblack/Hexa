@@ -15,7 +15,8 @@ public class PostsInfo {
     private String caption;
     private long totalFeel;
     private long totalComment;
-    private Date dateCreate;
+//    private Date dateCreate;
+    private String dateCreate;
 
     private List<PostsUserInfo> postsUserList;
     private List<PostsCommentInfo> postsCommentList;

@@ -13,6 +13,6 @@ import java.util.Date;
 public class PostsImageInfo {
     private long postsImageId;
     private String image;
-    private Date dateCreate;
-
+//    private Date dateCreate;
+    private String dateCreate;
 }

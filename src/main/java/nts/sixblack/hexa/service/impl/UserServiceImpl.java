@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setName(user.getName());
         userInfo.setPhone(user.getPhone());
         userInfo.setFollowStatus(user.getFollowStatus());
-        userInfo.setDateCreate(user.getDateCreate());
+        userInfo.setDateCreate(TimeConfig.getTime(user.getDateCreate()));
 
         userInfo.setNumberOfFollower(followService.followerList(userId).size());
         userInfo.setNumberOfFollowing(followService.followingList(userId).size());

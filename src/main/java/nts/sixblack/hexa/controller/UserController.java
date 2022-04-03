@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.controller;
 
+import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.jwt.JwtTokenProvider;
 import nts.sixblack.hexa.jwt.JwtValue;
@@ -165,7 +166,7 @@ public class UserController {
         followInfo.setUserId(123);
         followInfo.setUserName("SixBlack");
         followInfo.setUserImage("hmm");
-        followInfo.setDateCreate(new Date());
+        followInfo.setDateCreate(TimeConfig.getTime(new Date()));
         return followInfo;
     }
 

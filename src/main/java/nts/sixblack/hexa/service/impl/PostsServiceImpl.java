@@ -92,7 +92,7 @@ public class PostsServiceImpl implements PostsService {
         PostsInfo postsInfo = new PostsInfo();
         postsInfo.setPostsId(posts.getPostsId());
         postsInfo.setCaption(posts.getCaption());
-        postsInfo.setDateCreate(posts.getDateCreate());
+        postsInfo.setDateCreate(TimeConfig.getTime(posts.getDateCreate()));
 
         postsInfo.setPostsUserList(postsUserService.findListPostsUserByPostId(postsId));
 

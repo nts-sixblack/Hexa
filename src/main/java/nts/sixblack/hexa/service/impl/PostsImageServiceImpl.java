@@ -34,7 +34,7 @@ public class PostsImageServiceImpl implements PostsImageService {
             PostsImageInfo postsImageInfo = new PostsImageInfo();
             postsImageInfo.setPostsImageId(postsImage.getPostsImageId());
             postsImageInfo.setImage(postsImage.getImage());
-            postsImageInfo.setDateCreate(postsImage.getDateCreate());
+            postsImageInfo.setDateCreate(TimeConfig.getTime(postsImage.getDateCreate()));
 
             postsImageInfoList.add(postsImageInfo);
         }
