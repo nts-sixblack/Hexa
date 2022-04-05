@@ -29,6 +29,7 @@ public class UserInfo {
 //    private Date dateCreate;
 
     private String dateCreate;
+    private long follow;
 
     //    private List<PostsUserInfo> postsUserList;
 //    private List<PostsFeelInfo> postsFeelList;

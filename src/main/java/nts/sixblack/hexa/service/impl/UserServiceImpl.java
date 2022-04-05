@@ -1,6 +1,7 @@
 package nts.sixblack.hexa.service.impl;
 
 import nts.sixblack.hexa.config.TimeConfig;
+import nts.sixblack.hexa.entity.Follow;
 import nts.sixblack.hexa.entity.User;
 import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.model.PostsInfo;
@@ -256,6 +257,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setFollowStatus(userForm.isFollowStatus());
 
         userRepository.save(user);
+    }
+
+    @Override
+    public UserInfo moreInformation(long myUserId, long userId) {
+
+        UserInfo userInfo = information(userId);
+
+        Follow follow = followService.findFollow(myUserId, userId);
+        if (follow == null){
+            userInfo.setFollow(-1);
+        }
+        if (follow != null){
+            if (follow.isStatus()){
+                userInfo.setFollow(1);
+            } else {
+                userInfo.setFollow(0);
+            }
+        }
+
+        return userInfo;
     }
 
     @Override

@@ -22,4 +22,5 @@ public interface UserService {
     void changeName(UserNameForm userNameForm);
     UserInfo getByEmail(String email);
     void update(UserForm userForm);
+    UserInfo moreInformation(long myUserId, long userId);
 }

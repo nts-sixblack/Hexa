@@ -101,6 +101,15 @@ public class UserController {
         );
     }
 
+    @GetMapping("/{myUserId}/{userId}")
+    public ResponseEntity<ResponseObject> moreInformation(@PathVariable("myUserId") long myUserId, @PathVariable("userId") long userId){
+        UserInfo userInfo = userService.moreInformation(myUserId, userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+            new ResponseObject("ok","Thông tin người dùng", userInfo)
+        );
+    }
+
     @PostMapping("/updateAvatar")
     public ResponseEntity<ResponseObject> updateAvatar(@ModelAttribute("userImageForm") UserImageForm userImageForm){
 
