@@ -67,4 +67,12 @@ public class FollowController {
                 new ResponseObject("ok","Đã thay đổi trang thái followStatus", "ok")
         );
     }
+
+    @GetMapping("delete/{followId}")
+    public ResponseEntity<ResponseObject> deleteRequest(@PathVariable("followId") long followId){
+        followService.delete(followId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+            new ResponseObject("ok","Đã xóa", "")
+        );
+    }
 }

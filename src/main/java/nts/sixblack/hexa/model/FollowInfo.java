@@ -15,6 +15,7 @@ public class FollowInfo {
     private long userId;
     private String userName;
     private String userImage;
+    private String email;
 //    private Date dateCreate;
     private String dateCreate;
 

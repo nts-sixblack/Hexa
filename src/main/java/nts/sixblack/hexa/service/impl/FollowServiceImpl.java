@@ -67,6 +67,7 @@ public class FollowServiceImpl implements FollowService {
             followInfo.setUserId(follow.getUserSender().getUserId());
             followInfo.setUserName(follow.getUserSender().getName());
             followInfo.setUserImage(follow.getUserSender().getAvatar());
+            followInfo.setEmail(follow.getUserSender().getEmail());
 
             followInfoList.add(followInfo);
         }
@@ -87,6 +88,7 @@ public class FollowServiceImpl implements FollowService {
             followInfo.setUserId(follow.getUserSender().getUserId());
             followInfo.setUserName(follow.getUserSender().getName());
             followInfo.setUserImage(follow.getUserSender().getAvatar());
+            followInfo.setEmail(follow.getUserSender().getEmail());
 
             followInfoList.add(followInfo);
         }
@@ -107,6 +109,7 @@ public class FollowServiceImpl implements FollowService {
             followInfo.setUserId(follow.getUserSender().getUserId());
             followInfo.setUserName(follow.getUserSender().getName());
             followInfo.setUserImage(follow.getUserSender().getAvatar());
+            followInfo.setEmail(follow.getUserSender().getEmail());
 
             followInfoList.add(followInfo);
         }
