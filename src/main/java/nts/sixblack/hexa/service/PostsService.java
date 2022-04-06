@@ -11,5 +11,6 @@ public interface PostsService {
     List<PostsInfo> findListPostsByUserId(long userId);
     void delete(long postsId);
     List<PostsInfo> listPostShow(long userId);
+    PostsInfo findPostByUser(long postsId, long userId);
 
 }

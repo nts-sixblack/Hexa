@@ -1,18 +1,28 @@
 package nts.sixblack.hexa.controller;
 
+import io.jsonwebtoken.Jwts;
 import nts.sixblack.hexa.entity.PostsImage;
 import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.PostsForm;
+import nts.sixblack.hexa.jwt.JwtTokenProvider;
 import nts.sixblack.hexa.jwt.JwtValue;
 import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.service.*;
+import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +46,7 @@ public class PostsController {
     PostsCommentService postsCommentService;
 
     @Autowired
-    JwtValue jwtValue;
+    JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("new")
     public ResponseEntity<ResponseObject> newPosts(@RequestBody PostsForm postsForm){
@@ -80,14 +90,30 @@ public class PostsController {
     @GetMapping("{postsId}")
     public ResponseEntity<ResponseObject> findPostsByPostId(@PathVariable("postsId") long postsId){
 
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Thông tin bài đăng", postsService.findPostsById(postsId))
-        );
+        long userId = 0;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication!=null){
+            String token = jwtTokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
+            System.out.println(token);
+           userId = jwtTokenProvider.getUserId(token);
+        }
+
+        if (userId > 0){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("ok","Thông tin bài đăng", postsService.findPostByUser(postsId, userId))
+            );
+        } else {
+            return ResponseEntity.status(HttpStatus.FOUND).body(
+                new ResponseObject("faul","Token faul", "")
+            );
+        }
+
+
     }
 
     @DeleteMapping("{postsId}")
     public ResponseEntity<ResponseObject> deletePosts(@PathVariable("postsId") long postsId){
-        System.out.println(postsId);
         postsService.delete(postsId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đẵ xóa", "")

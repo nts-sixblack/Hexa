@@ -138,5 +138,16 @@ public class PostsServiceImpl implements PostsService {
         return postsInfoList;
     }
 
+    @Override
+    public PostsInfo findPostByUser(long postsId, long userId) {
+        PostsInfo postsInfo = findPostsById(postsId);
+        if (postsFeelService.checkFeel(postsId, userId) > 0){
+            postsInfo.setFeel(true);
+        } else {
+            postsInfo.setFeel(false);
+        }
+        return postsInfo;
+    }
+
 
 }

@@ -17,6 +17,7 @@ public class PostsInfo {
     private long totalComment;
 //    private Date dateCreate;
     private String dateCreate;
+    private boolean feel;
 
     private List<PostsUserInfo> postsUserList;
     private List<PostsCommentInfo> postsCommentList;
