@@ -3,9 +3,7 @@ package nts.sixblack.hexa.controller;
 import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.jwt.JwtTokenProvider;
-import nts.sixblack.hexa.jwt.JwtValue;
 import nts.sixblack.hexa.model.FollowInfo;
-import nts.sixblack.hexa.model.MessageInfo;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.service.UserService;
@@ -19,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @RestController
@@ -33,9 +30,6 @@ public class UserController {
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    JwtValue jwtValue;
 
     @PostMapping("login")
     public ResponseEntity<ResponseObject> login(@RequestBody LoginForm loginForm){

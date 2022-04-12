@@ -51,6 +51,13 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public void accept(long followId) {
+        Follow follow = followRepository.findByFollowId(followId);
+        follow.setStatus(true);
+        followRepository.save(follow);
+    }
+
+    @Override
     public void delete(long followId) {
         followRepository.deleteById(followId);
     }

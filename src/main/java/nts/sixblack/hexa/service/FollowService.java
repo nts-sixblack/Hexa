@@ -8,6 +8,7 @@ import java.util.List;
 public interface FollowService {
     void sendRequestFollow(long userSenderId, long userRecipientId);
     void save(Follow follow);
+    void accept(long followId);
     void delete(long followId);
     List<FollowInfo> requestList(long userId);
     List<FollowInfo> followerList(long userId);

@@ -2,18 +2,19 @@ package nts.sixblack.hexa.controller;
 
 import nts.sixblack.hexa.entity.Follow;
 import nts.sixblack.hexa.entity.User;
+import nts.sixblack.hexa.jwt.JwtTokenProvider;
 import nts.sixblack.hexa.model.FollowInfo;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.service.FollowService;
 import nts.sixblack.hexa.service.UserService;
+import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,9 +28,13 @@ public class FollowController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
 //    userSender gửi req follow/unfollow đến userRecipient
-    @GetMapping("{userSenderId}/{userRecipientId}")
-    public ResponseEntity<ResponseObject> sendRequestFollow(@PathVariable("userSenderId") long userSenderId, @PathVariable("userRecipientId") long userRecipientId){
+    @GetMapping("send/{userRecipientId}")
+    public ResponseEntity<ResponseObject> sendRequestFollow(@PathVariable("userRecipientId") long userRecipientId){
+        long userSenderId = getUserId();
         followService.sendRequestFollow(userSenderId,userRecipientId);
         return ResponseEntity.status(HttpStatus.OK).body(
           new ResponseObject("ok","Gửi request follow", "ok")
@@ -37,34 +42,45 @@ public class FollowController {
     }
 
 //    xem danh sách yêu cầu follow
-    @GetMapping("{userId}/request")
-    public ResponseEntity<ResponseObject> reQuestListFollow(@PathVariable("userId") long userId){
+    @GetMapping("request")
+    public ResponseEntity<ResponseObject> reQuestListFollow(){
+        long userId = getUserId();
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người yêu cầu follow", followService.requestList(userId))
         );
     }
 
 //    xem danh sách những người mình đang follow
-    @GetMapping("{userId}/follower")
-    public ResponseEntity<ResponseObject> listFollower(@PathVariable("userId") long userId){
+    @GetMapping("follower")
+    public ResponseEntity<ResponseObject> listFollower(){
+        long userId = getUserId();
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người follow", followService.followerList(userId))
         );
     }
 
-    @GetMapping("{userId}/following")
-    public ResponseEntity<ResponseObject> listFollowing(@PathVariable("userId") long userId){
+    @GetMapping("following")
+    public ResponseEntity<ResponseObject> listFollowing(){
+        long userId = getUserId();
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người đang theo dõi tôi", followService.followingList(userId))
         );
     }
 
-    @GetMapping("{userId}/followStatus")
-    public ResponseEntity<ResponseObject> changeFollowStatus(@PathVariable("userId") long userId){
-
+    @GetMapping("followStatus")
+    public ResponseEntity<ResponseObject> changeFollowStatus(){
+        long userId = getUserId();
         userService.changeFollowStatus(userId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã thay đổi trang thái followStatus", "ok")
+        );
+    }
+
+    @GetMapping("accept/{followId}")
+    public ResponseEntity<ResponseObject> acceptRequest(@PathVariable("followId") long followId){
+        followService.accept(followId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã xác nhận","")
         );
     }
 
@@ -74,5 +90,15 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok","Đã xóa", "")
         );
+    }
+
+
+    private long getUserId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication!=null){
+            String token = jwtTokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
+            return jwtTokenProvider.getUserId(token);
+        }
+        return 0;
     }
 }
