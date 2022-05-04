@@ -8,6 +8,7 @@ import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.service.UserService;
 import nts.sixblack.hexa.ultil.CustomUserDetail;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,16 +77,34 @@ public class UserController {
 
     @GetMapping("{userId}")
     public ResponseEntity<ResponseObject> informationOfUser(@PathVariable("userId") long userId){
-        UserInfo userInfo = userService.information(userId);
-        if (userInfo!=null){
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok","Thông tin người dùng", userInfo )
-            );
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject("ok","Không tìm thấy người này", "" )
-            );
-        }
+        long myUserId = getUserId();
+
+//        System.out.println(myUserId);
+//        if (myUserId == 0){
+//            UserInfo userInfo = userService.information(userId);
+//            if (userInfo!=null){
+//                return ResponseEntity.status(HttpStatus.OK).body(
+//                        new ResponseObject("ok","Thông tin người dùng", userInfo )
+//                );
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+//                        new ResponseObject("ok","Không tìm thấy người này", "" )
+//                );
+//            }
+//        } else {
+            UserInfo userInfo = userService.moreInformation(myUserId, userId);
+            if (userInfo!=null){
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("ok","Thông tin người dùng", userInfo )
+                );
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject("ok","Không tìm thấy người này", "" )
+                );
+            }
+//        }
+
+
     }
 
     @GetMapping("/find/name={value}")
@@ -100,6 +119,9 @@ public class UserController {
     @PostMapping("/updateAvatar")
     public ResponseEntity<ResponseObject> updateAvatar(@ModelAttribute("userImageForm") UserImageForm userImageForm){
 
+        long userId = getUserId();
+        userImageForm.setUserId(userId);
+
         userService.updateAvatar(userImageForm);
 
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -107,9 +129,10 @@ public class UserController {
         );
     }
 
-    @DeleteMapping("/deleteAvatar/{userId}")
-    public ResponseEntity<ResponseObject> deleteAvatar(@PathVariable("userId") long userId){
+    @DeleteMapping("/deleteAvatar")
+    public ResponseEntity<ResponseObject> deleteAvatar(){
 
+        long userId = getUserId();
         userService.deteleAvatar(userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -119,6 +142,8 @@ public class UserController {
 
     @PostMapping("/updateBackground")
     public ResponseEntity<ResponseObject> updateBackground(@ModelAttribute("userImageForm") UserImageForm userImageForm){
+        long userId = getUserId();
+        userImageForm.setUserId(userId);
 
         userService.updateBackground(userImageForm);
 
@@ -127,8 +152,9 @@ public class UserController {
         );
     }
 
-    @DeleteMapping("/deleteBackground/{userId}")
-    public ResponseEntity<ResponseObject> deleteBackground(@PathVariable("userId") long userId){
+    @DeleteMapping("/deleteBackground")
+    public ResponseEntity<ResponseObject> deleteBackground(){
+        long userId = getUserId();
 
         userService.deteleBackground(userId);
 
@@ -166,5 +192,14 @@ public class UserController {
         return followInfo;
     }
 
+
+    private long getUserId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication!=null){
+            String token = jwtTokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
+            return jwtTokenProvider.getUserId(token);
+        }
+        return 0;
+    }
 
 }

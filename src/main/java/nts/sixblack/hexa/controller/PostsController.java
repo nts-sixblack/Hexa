@@ -50,8 +50,12 @@ public class PostsController {
 //        return "ok";
     }
 
-    @PostMapping("like")
-    public ResponseEntity<ResponseObject> like(@RequestBody Like like){
+    @GetMapping("like/{tusId}")
+    public ResponseEntity<ResponseObject> like(@PathVariable("tusId") long tusId){
+
+        long userId = getUserId();
+        Like like = new Like(tusId, userId);
+
         postsFeelService.like(like);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã like", "")
@@ -60,6 +64,10 @@ public class PostsController {
 
     @PostMapping("comment")
     public ResponseEntity<ResponseObject> comment(@RequestBody CommentForm commentForm){
+
+        long userId = getUserId();
+        commentForm.setUserId(userId);
+
         postsCommentService.comment(commentForm);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã comment", "")
@@ -107,8 +115,10 @@ public class PostsController {
         );
     }
 
-    @GetMapping("myUserId/{userId}")
-    public ResponseEntity<ResponseObject> findListsPostToShowByMyId(@PathVariable("userId") long userId){
+    @GetMapping("show")
+    public ResponseEntity<ResponseObject> findListsPostToShowByMyId(){
+
+        long userId = getUserId();
 
         List<PostsInfo> list = postsService.listPostShow(userId);
         Collections.sort(list, new Comparator<PostsInfo>() {
@@ -128,8 +138,10 @@ public class PostsController {
         );
     }
 
-    @GetMapping("listPosts/{userId}")
-    public ResponseEntity<ResponseObject> findMyListPosts(@PathVariable("userId") long userId){
+    @GetMapping("myPosts")
+    public ResponseEntity<ResponseObject> findMyListPosts(){
+        long userId = getUserId();
+
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId))
         );
@@ -140,5 +152,14 @@ public class PostsController {
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "list comment ", postsCommentService.findListCommentByPostsId(postsId))
         );
+    }
+
+    private long getUserId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication!=null){
+            String token = jwtTokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
+            return jwtTokenProvider.getUserId(token);
+        }
+        return 0;
     }
 }

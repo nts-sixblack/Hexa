@@ -55,7 +55,7 @@ public class FollowController {
     public ResponseEntity<ResponseObject> listFollower(){
         long userId = getUserId();
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Danh sách người follow", followService.followerList(userId))
+                new ResponseObject("ok","Danh sách người tôi đang theo dõi", followService.followerList(userId))
         );
     }
 
