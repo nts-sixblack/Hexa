@@ -9,6 +9,8 @@ import nts.sixblack.hexa.repository.UserRepository;
 import nts.sixblack.hexa.service.FollowService;
 import nts.sixblack.hexa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,6 +85,27 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public List<FollowInfo> requestList(long userId, int page) {
+        List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
+        Pageable pageable = PageRequest.of(page, 5);
+
+        List<Follow> followList = followRepository.requestListFollowNumber(userId, pageable);
+        for(Follow follow:followList){
+            FollowInfo followInfo = new FollowInfo();
+            followInfo.setFollowId(follow.getFollowId());
+            followInfo.setStatus(false);
+            followInfo.setUserId(follow.getUserSender().getUserId());
+            followInfo.setUserName(follow.getUserSender().getName());
+            followInfo.setUserImage(follow.getUserSender().getAvatar());
+            followInfo.setEmail(follow.getUserSender().getEmail());
+
+            followInfoList.add(followInfo);
+        }
+
+        return followInfoList;
+    }
+
+    @Override
     public List<FollowInfo> followerList(long userId) {
         User user = new User();
         user.setUserId(userId);
@@ -104,11 +127,55 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public List<FollowInfo> followerList(long userId, int page) {
+        User user = new User();
+        user.setUserId(userId);
+        Pageable pageable = PageRequest.of(page, 5);
+        List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
+        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true, pageable);
+        for(Follow follow:list){
+            FollowInfo followInfo = new FollowInfo();
+            followInfo.setFollowId(follow.getFollowId());
+            followInfo.setStatus(follow.isStatus());
+            followInfo.setUserId(follow.getUserSender().getUserId());
+            followInfo.setUserName(follow.getUserSender().getName());
+            followInfo.setUserImage(follow.getUserSender().getAvatar());
+            followInfo.setEmail(follow.getUserSender().getEmail());
+
+            followInfoList.add(followInfo);
+        }
+
+        return followInfoList;
+    }
+
+    @Override
     public List<FollowInfo> followingList(long userId) {
         User user = new User();
         user.setUserId(userId);
         List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
-        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true);
+        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true);
+        for(Follow follow:list){
+            FollowInfo followInfo = new FollowInfo();
+            followInfo.setFollowId(follow.getFollowId());
+            followInfo.setStatus(follow.isStatus());
+            followInfo.setUserId(follow.getUserSender().getUserId());
+            followInfo.setUserName(follow.getUserSender().getName());
+            followInfo.setUserImage(follow.getUserSender().getAvatar());
+            followInfo.setEmail(follow.getUserSender().getEmail());
+
+            followInfoList.add(followInfo);
+        }
+
+        return followInfoList;
+    }
+
+    @Override
+    public List<FollowInfo> followingList(long userId, int page) {
+        User user = new User();
+        user.setUserId(userId);
+        Pageable pageable = PageRequest.of(page, 5);
+        List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
+        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true, pageable);
         for(Follow follow:list){
             FollowInfo followInfo = new FollowInfo();
             followInfo.setFollowId(follow.getFollowId());

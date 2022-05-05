@@ -11,8 +11,11 @@ public interface FollowService {
     void accept(long followId);
     void delete(long followId);
     List<FollowInfo> requestList(long userId);
+    List<FollowInfo> requestList(long userId, int page);
     List<FollowInfo> followerList(long userId);
+    List<FollowInfo> followerList(long userId, int page);
     List<FollowInfo> followingList(long userId);
+    List<FollowInfo> followingList(long userId, int page);
     List<Long> listUserRecipient(long userId);
     List<Follow> listuserRecipient(long userId);
     Follow findFollow(long myUserId, long userId);

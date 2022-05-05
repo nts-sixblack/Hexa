@@ -50,6 +50,14 @@ public class FollowController {
         );
     }
 
+    @GetMapping("request/{page}")
+    public ResponseEntity<ResponseObject> reQuestListFollow(@PathVariable("page") int page){
+        long userId = getUserId();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Danh sách người yêu cầu follow", followService.requestList(userId, page))
+        );
+    }
+
 //    xem danh sách những người mình đang follow
     @GetMapping("follower")
     public ResponseEntity<ResponseObject> listFollower(){

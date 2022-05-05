@@ -157,7 +157,7 @@ public class PostsServiceImpl implements PostsService {
     public List<PostsInfo> listPostShow(long userId, int page) {
         User user = new User();
         user.setUserId(userId);
-        Pageable pageable = PageRequest.of(page, 2);
+        Pageable pageable = PageRequest.of(page, 5);
 
         List<Long> postsList = postsRepository.listNumberPostShow(user, pageable);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
