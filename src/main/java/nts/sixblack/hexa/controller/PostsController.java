@@ -157,6 +157,13 @@ public class PostsController {
         );
     }
 
+    @GetMapping("abcd")
+    public ResponseEntity<ResponseObject> allPosts(){
+        return ResponseEntity.status(HttpStatus.OK).body(
+            new ResponseObject("ok","listPost",postsService.getAll())
+        );
+    }
+
     private long getUserId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication!=null){

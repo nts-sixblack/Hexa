@@ -149,5 +149,16 @@ public class PostsServiceImpl implements PostsService {
         return postsInfo;
     }
 
+    @Override
+    public List<PostsInfo> getAll() {
+        List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
+        List<Posts> postsList = postsRepository.getAll();
+        for (Posts posts:postsList){
+            PostsInfo postsInfo = findPostsById(posts.getPostsId());
+            postsInfoList.add(postsInfo);
+        }
+        return postsInfoList;
+    }
+
 
 }

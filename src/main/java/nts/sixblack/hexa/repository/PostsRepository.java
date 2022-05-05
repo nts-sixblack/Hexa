@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
     Posts findByPostsId(long postsId);
-
+    @Query("select p from Posts p")
+    List<Posts> getAll();
 }
