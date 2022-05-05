@@ -14,5 +14,6 @@ public interface FollowService {
     List<FollowInfo> followerList(long userId);
     List<FollowInfo> followingList(long userId);
     List<Long> listUserRecipient(long userId);
+    List<Follow> listuserRecipient(long userId);
     Follow findFollow(long myUserId, long userId);
 }

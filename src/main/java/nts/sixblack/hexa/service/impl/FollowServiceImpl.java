@@ -139,6 +139,14 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public List<Follow> listuserRecipient(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        List<Follow> list = followRepository.findByUserRecipient(user);
+        return list;
+    }
+
+    @Override
     public Follow findFollow(long myUserId, long userId) {
         User userSender = new User();
         userSender.setUserId(myUserId);

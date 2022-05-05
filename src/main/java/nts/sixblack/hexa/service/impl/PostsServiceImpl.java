@@ -11,6 +11,8 @@ import nts.sixblack.hexa.repository.PostsUserRepository;
 import nts.sixblack.hexa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -118,7 +120,20 @@ public class PostsServiceImpl implements PostsService {
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
-//        return null;
+    }
+
+    @Override
+    public List<PostsInfo> findListPostsByUserId(long userId, int page) {
+        User user = new User();
+        user.setUserId(userId);
+        Pageable pageable = PageRequest.of(page, 5);
+        List<Posts> postsList = postsUserRepository.findPostsByUser(user, pageable);
+        List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
+        for (Posts posts:postsList){
+            PostsInfo postsInfo = findPostsById(posts.getPostsId());
+            postsInfoList.add(postsInfo);
+        }
+        return postsInfoList;
     }
 
     @Override
@@ -139,6 +154,24 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
+    public List<PostsInfo> listPostShow(long userId, int page) {
+        User user = new User();
+        user.setUserId(userId);
+        Pageable pageable = PageRequest.of(page, 2);
+
+        List<Long> postsList = postsRepository.listNumberPostShow(user, pageable);
+        List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
+        for (Long postsId:postsList){
+            PostsInfo postsInfo = findPostsById(postsId);
+
+            postsInfoList.add(postsInfo);
+        }
+
+        return postsInfoList;
+    }
+
+
+    @Override
     public PostsInfo findPostByUser(long postsId, long userId) {
         PostsInfo postsInfo = findPostsById(postsId);
         if (postsFeelService.checkFeel(postsId, userId) > 0){
@@ -149,6 +182,7 @@ public class PostsServiceImpl implements PostsService {
         return postsInfo;
     }
 
+    ////////////////
     @Override
     public List<PostsInfo> getAll() {
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
@@ -159,6 +193,19 @@ public class PostsServiceImpl implements PostsService {
         }
         return postsInfoList;
     }
+
+    @Override
+    public List<PostsInfo> listNumberPosts(int page, int size) {
+        List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
+        Pageable pageable = PageRequest.of(page, size);
+        List<Posts> postsList = postsRepository.listNumberPost(pageable);
+        for (Posts posts:postsList){
+            PostsInfo postsInfo = findPostsById(posts.getPostsId());
+            postsInfoList.add(postsInfo);
+        }
+        return postsInfoList;
+    }
+    //////////////////
 
 
 }

@@ -127,14 +127,21 @@ public class PostsController {
         Collections.sort(list, new Comparator<PostsInfo>() {
             @Override
             public int compare(PostsInfo o1, PostsInfo o2) {
-//                if (o1.getDateCreate().before(o2.getDateCreate())){
-//                    return 1;
-//                } else {
-//                    return -1;
-//                }
                 return -o1.getDateCreate().compareTo(o2.getDateCreate());
             }
         });
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","List Posts Show", list)
+        );
+    }
+
+    @GetMapping("show/{page}")
+    public ResponseEntity<ResponseObject> findListsPostToShowByMyId(@PathVariable("page") int page){
+
+        long userId = getUserId();
+
+        List<PostsInfo> list = postsService.listPostShow(userId, page);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","List Posts Show", list)
@@ -150,10 +157,31 @@ public class PostsController {
         );
     }
 
+    @GetMapping("myPosts/{page}")
+    public ResponseEntity<ResponseObject> findMyListPosts(@PathVariable("page") int page){
+        long userId = getUserId();
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId, page))
+        );
+    }
+
+
+
     @GetMapping("listComment/{postsId}")
     public ResponseEntity<ResponseObject> listCommentByPostsId(@PathVariable("postsId") long postsId){
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "list comment ", postsCommentService.findListCommentByPostsId(postsId))
+        );
+    }
+
+    ////////////////////
+
+    @GetMapping("listPosts/{page}")
+    public ResponseEntity<ResponseObject> listNumberPosts(@PathVariable("page") int page){
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","list number posts", postsService.listNumberPosts(page, 3))
         );
     }
 
@@ -163,6 +191,8 @@ public class PostsController {
             new ResponseObject("ok","listPost",postsService.getAll())
         );
     }
+
+    /////////////////////
 
     private long getUserId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

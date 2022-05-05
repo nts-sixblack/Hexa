@@ -55,7 +55,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setFollowStatus(false);
         } else {
             user.setFollowStatus(true);
+            List<Follow> followList = followService.listuserRecipient(userId);
+            for (Follow follow:followList){
+                follow.setStatus(true);
+                followService.save(follow);
+            }
         }
+
         userRepository.save(user);
     }
 
