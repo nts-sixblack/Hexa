@@ -108,7 +108,7 @@ public class FollowServiceImpl implements FollowService {
         User user = new User();
         user.setUserId(userId);
         List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
-        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true);
+        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true);
         for(Follow follow:list){
             FollowInfo followInfo = new FollowInfo();
             followInfo.setFollowId(follow.getFollowId());
