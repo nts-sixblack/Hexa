@@ -44,6 +44,9 @@ public class PostsController {
 
     @PostMapping("uploadFile")
     public ResponseEntity<ResponseObject> newFile(@ModelAttribute("postsForm") PostsForm postsForm){
+        long userId = getUserId();
+        postsForm.setUserId(userId);
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đăng posts thanh công", postsService.newPosts(postsForm))
         );
