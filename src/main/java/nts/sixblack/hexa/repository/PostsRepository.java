@@ -22,5 +22,13 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
             "from Posts p join p.postsUserList pu " +
             "where pu.user in (select f.userRecipient from Follow f where f.userSender = ?1 and f.status = TRUE )" +
             "order by p.dateCreate")
+    List<Long> listPostShow(User userSender);
+
+    @Query("select p.postsId " +
+            "from Posts p join p.postsUserList pu " +
+            "where pu.user in (select f.userRecipient from Follow f where f.userSender = ?1 and f.status = TRUE )" +
+            "order by p.dateCreate")
     List<Long> listNumberPostShow(User userSender, Pageable pageable);
+
+
 }

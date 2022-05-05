@@ -121,15 +121,22 @@ public class PostsController {
     @GetMapping("show")
     public ResponseEntity<ResponseObject> findListsPostToShowByMyId(){
 
+//        long userId = getUserId();
+//
+//        List<PostsInfo> list = postsService.listPostShow(userId);
+//        Collections.sort(list, new Comparator<PostsInfo>() {
+//            @Override
+//            public int compare(PostsInfo o1, PostsInfo o2) {
+//                return -o1.getDateCreate().compareTo(o2.getDateCreate());
+//            }
+//        });
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject("ok","List Posts Show", list)
+//        );
         long userId = getUserId();
 
         List<PostsInfo> list = postsService.listPostShow(userId);
-        Collections.sort(list, new Comparator<PostsInfo>() {
-            @Override
-            public int compare(PostsInfo o1, PostsInfo o2) {
-                return -o1.getDateCreate().compareTo(o2.getDateCreate());
-            }
-        });
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","List Posts Show", list)

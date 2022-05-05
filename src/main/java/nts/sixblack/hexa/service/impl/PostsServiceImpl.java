@@ -116,7 +116,7 @@ public class PostsServiceImpl implements PostsService {
         List<Posts> postsList = postsUserRepository.findPostsByUser(user);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
         for (Posts posts:postsList){
-            PostsInfo postsInfo = findPostsById(posts.getPostsId());
+            PostsInfo postsInfo = findPostByUser(posts.getPostsId(), userId);
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
@@ -130,7 +130,7 @@ public class PostsServiceImpl implements PostsService {
         List<Posts> postsList = postsUserRepository.findPostsByUser(user, pageable);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
         for (Posts posts:postsList){
-            PostsInfo postsInfo = findPostsById(posts.getPostsId());
+            PostsInfo postsInfo = findPostByUser(posts.getPostsId(), userId);
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
@@ -143,11 +143,15 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public List<PostsInfo> listPostShow(long userId) {
-        List<Long> userIdList = followService.listUserRecipient(userId);
+        User user = new User();
+        user.setUserId(userId);
+
+        List<Long> postsList = postsRepository.listPostShow(user);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
-        for (Long id:userIdList){
-            List<PostsInfo> list  = findListPostsByUserId(id);
-            postsInfoList.addAll(list);
+        for (Long postsId:postsList){
+            PostsInfo postsInfo = findPostByUser(postsId, userId);
+
+            postsInfoList.add(postsInfo);
         }
 
         return postsInfoList;
@@ -162,7 +166,7 @@ public class PostsServiceImpl implements PostsService {
         List<Long> postsList = postsRepository.listNumberPostShow(user, pageable);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
         for (Long postsId:postsList){
-            PostsInfo postsInfo = findPostsById(postsId);
+            PostsInfo postsInfo = findPostByUser(postsId, userId);
 
             postsInfoList.add(postsInfo);
         }
