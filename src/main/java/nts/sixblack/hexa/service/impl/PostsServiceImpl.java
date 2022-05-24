@@ -113,10 +113,10 @@ public class PostsServiceImpl implements PostsService {
     public List<PostsInfo> findListPostsByUserId(long userId) {
         User user = new User();
         user.setUserId(userId);
-        List<Posts> postsList = postsUserRepository.findPostsByUser(user);
+        List<Long> postsList = postsUserRepository.findPostsByUser(user);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
-        for (Posts posts:postsList){
-            PostsInfo postsInfo = findPostByUser(posts.getPostsId(), userId);
+        for (Long postsId:postsList){
+            PostsInfo postsInfo = findPostByUser(postsId, userId);
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
@@ -127,10 +127,10 @@ public class PostsServiceImpl implements PostsService {
         User user = new User();
         user.setUserId(userId);
         Pageable pageable = PageRequest.of(page, 5);
-        List<Posts> postsList = postsUserRepository.findPostsByUser(user, pageable);
+        List<Long> postsList = postsUserRepository.findPostsByUser(user, pageable);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
-        for (Posts posts:postsList){
-            PostsInfo postsInfo = findPostByUser(posts.getPostsId(), userId);
+        for (Long postsId:postsList){
+            PostsInfo postsInfo = findPostByUser(postsId, userId);
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
@@ -196,6 +196,13 @@ public class PostsServiceImpl implements PostsService {
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
+    }
+
+    @Override
+    public int countPostsOfUser(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        return postsUserRepository.countPostsByUser(user);
     }
 
     @Override

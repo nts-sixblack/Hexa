@@ -82,9 +82,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userInfo.setPhone(user.getPhone());
             userInfo.setFollowStatus(user.getFollowStatus());
 
-            userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
-            userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
-            userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
+//            userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
+//            userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
+//            userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
+
+            userInfo.setNumberOfFollower(followService.numberFollower(user.getUserId()));
+            userInfo.setNumberOfFollowing(followService.numberFollowing(user.getUserId()));
+            userInfo.setNumberOfPosts(postsService.countPostsOfUser(user.getUserId()));
 
             return userInfo;
         } else {
@@ -120,10 +124,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userInfo.setPhone(user.getPhone());
             userInfo.setFollowStatus(user.getFollowStatus());
 
-            userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
-            userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
-            userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
-
             return userInfo;
         } else {
             return null;
@@ -149,9 +149,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setFollowStatus(user.getFollowStatus());
         userInfo.setDateCreate(TimeConfig.getTime(user.getDateCreate()));
 
-        userInfo.setNumberOfFollower(followService.followerList(userId).size());
-        userInfo.setNumberOfFollowing(followService.followingList(userId).size());
-        userInfo.setNumberOfPosts(postsService.findListPostsByUserId(userId).size());
+//        userInfo.setNumberOfFollower(followService.followerList(userId).size());
+//        userInfo.setNumberOfFollowing(followService.followingList(userId).size());
+//        userInfo.setNumberOfPosts(postsService.findListPostsByUserId(userId).size());
+
+        userInfo.setNumberOfFollower(followService.numberFollower(user.getUserId()));
+        userInfo.setNumberOfFollowing(followService.numberFollowing(user.getUserId()));
+        userInfo.setNumberOfPosts(postsService.countPostsOfUser(user.getUserId()));
 
 //        if (userInfo.isFollowStatus()==true){
 //            List<PostsInfo> postsInfoList = postsService.findListPostsByUserId(userId);
@@ -245,9 +249,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userInfo.setPhone(user.getPhone());
         userInfo.setFollowStatus(user.getFollowStatus());
 
-        userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
-        userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
-        userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
+//        userInfo.setNumberOfFollower(followService.followerList(user.getUserId()).size());
+//        userInfo.setNumberOfFollowing(followService.followingList(user.getUserId()).size());
+//        userInfo.setNumberOfPosts(postsService.findListPostsByUserId(user.getUserId()).size());
+
+        userInfo.setNumberOfFollower(followService.numberFollower(user.getUserId()));
+        userInfo.setNumberOfFollowing(followService.numberFollowing(user.getUserId()));
+        userInfo.setNumberOfPosts(postsService.countPostsOfUser(user.getUserId()));
 
         return userInfo;
     }

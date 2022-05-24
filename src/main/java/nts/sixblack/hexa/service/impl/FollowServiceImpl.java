@@ -222,4 +222,18 @@ public class FollowServiceImpl implements FollowService {
         userRecipient.setUserId(userId);
         return followRepository.findByUserSenderAndUserRecipient(userSender, userRecipient);
     }
+
+    @Override
+    public int numberFollower(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        return followRepository.countByUserRecipientAndStatus(user, true);
+    }
+
+    @Override
+    public int numberFollowing(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        return followRepository.countByUserSenderAndStatus(user, true);
+    }
 }

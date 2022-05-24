@@ -15,6 +15,7 @@ public interface PostsService {
     List<PostsInfo> listPostShow(long userId, int page);
     PostsInfo findPostByUser(long postsId, long userId);
     List<PostsInfo> getAll();
+    int countPostsOfUser(long userId);
 
     List<PostsInfo> listNumberPosts(int page, int number);
 }

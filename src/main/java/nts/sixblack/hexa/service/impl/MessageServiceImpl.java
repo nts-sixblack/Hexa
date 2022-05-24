@@ -9,6 +9,8 @@ import nts.sixblack.hexa.model.MessageInfo;
 import nts.sixblack.hexa.repository.MessageRepository;
 import nts.sixblack.hexa.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,10 +39,14 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageInfo> findMessage(long channelId) {
+    public List<MessageInfo> findMessage(long channelId, int page) {
         Channel channel = new Channel();
         channel.setChannelId(channelId);
-        List<Message> messageList = messageRepository.findTop20ByChannelOrderByMessageId(channel);
+
+        Pageable pageable = PageRequest.of(page, 15);
+
+//        List<Message> messageList = messageRepository.findTop20ByChannelOrderByMessageId(channel);
+        List<Message> messageList = messageRepository.listMessage(channelId, pageable);
         List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
         for (Message message:messageList){
             MessageInfo messageInfo = new MessageInfo();

@@ -40,7 +40,7 @@ public class ChannelServiceImpl implements ChannelService {
         channelInfo.setName(channel.getName());
         channelInfo.setDateCreate(TimeConfig.getTime(channel.getDateCreate()));
 
-        channelInfo.setMessageList(messageService.findMessage(channelId));
+        channelInfo.setMessageList(messageService.findMessage(channelId, 0));
         channelInfo.setUserChannelList(userChannelService.findUserChannelByChannelId(channelId));
 
         return channelInfo;

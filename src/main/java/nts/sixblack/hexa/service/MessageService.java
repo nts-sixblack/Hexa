@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MessageService {
     Message newMessage(MessageForm messageForm);
-    List<MessageInfo> findMessage(long channelId);
+    List<MessageInfo> findMessage(long channelId, int page);
 }

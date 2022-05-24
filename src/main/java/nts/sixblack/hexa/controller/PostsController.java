@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -36,9 +37,15 @@ public class PostsController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("new")
-    public ResponseEntity<ResponseObject> newPosts(@RequestBody PostsForm postsForm){
+    public ResponseEntity<ResponseObject> newPosts(@ModelAttribute("postsForm") PostsForm postsForm){
+        long userId = getUserId();
+        postsForm.setUserId(userId);
+        PostsInfo postsInfo = postsService.newPosts(postsForm);
+        List<PostsInfo> list = new ArrayList<PostsInfo>();
+        list.add(postsInfo);
+
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","newPost", postsForm.getCaption())
+                new ResponseObject("ok","Đăng posts thanh công", list)
         );
     }
 
@@ -50,7 +57,6 @@ public class PostsController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đăng posts thanh công", postsService.newPosts(postsForm))
         );
-//        return "ok";
     }
 
     @GetMapping("like/{tusId}")
@@ -189,6 +195,20 @@ public class PostsController {
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","list number posts", postsService.listNumberPosts(page, 3))
+        );
+    }
+
+    @GetMapping("user/{userId}")
+    public ResponseEntity<ResponseObject> listPostOfUser(@PathVariable("userId") long userId){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","list post of user",postsService.findListPostsByUserId(userId))
+        );
+    }
+
+    @GetMapping("user/{userId}/{page}")
+    public ResponseEntity<ResponseObject> listNumerPostsOfUser(@PathVariable("userId") long userId, @PathVariable("page") int page){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","list number posts of user", postsService.findListPostsByUserId(userId, page))
         );
     }
 

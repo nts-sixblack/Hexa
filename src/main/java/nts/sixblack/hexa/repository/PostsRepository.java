@@ -15,7 +15,7 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     @Query("select p from Posts p")
     List<Posts> getAll();
 
-    @Query(value = "select p from Posts p order by p.postsId")
+    @Query("select p from Posts p order by p.postsId")
     List<Posts> listNumberPost(Pageable pageable);
 
     @Query("select p.postsId " +
