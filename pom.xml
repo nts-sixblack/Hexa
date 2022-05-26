@@ -97,6 +97,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>Hexa</finalName>
     </build>
 
 </project>

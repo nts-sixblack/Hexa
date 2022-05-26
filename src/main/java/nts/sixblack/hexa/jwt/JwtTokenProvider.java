@@ -14,7 +14,7 @@ public class JwtTokenProvider {
     @Value("${application.security.secret-key}")
     private String jwtSecretKey;
 
-    private final long expirationTime=1*24*60*60;
+    private final long expirationTime=6*30*24*60*60*100;
 
 
     public String generateToken(CustomUserDetail userDetail){
