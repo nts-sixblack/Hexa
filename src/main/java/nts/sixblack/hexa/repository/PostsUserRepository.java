@@ -12,10 +12,10 @@ import java.util.List;
 public interface PostsUserRepository extends JpaRepository<PostsUser, Long> {
     List<PostsUser> findPostsUserByPosts(Posts posts);
 
-    @Query("select pu.posts.postsId from PostsUser pu where pu.user = ?1")
+    @Query("select pu.posts.postsId from PostsUser pu where pu.user = ?1 order by pu.posts.postsId desc ")
     List<Long> findPostsByUser(User user);
 
-    @Query("select pu.posts.postsId from PostsUser pu where pu.user = ?1")
+    @Query("select pu.posts.postsId from PostsUser pu where pu.user = ?1  order by pu.posts.postsId desc ")
     List<Long> findPostsByUser(User user, Pageable pageable);
 
     @Query("select count(pu) from PostsUser pu where pu.user = ?1")

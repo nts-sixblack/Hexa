@@ -20,9 +20,9 @@ public class Song {
     private long songId;
 //    @Column(columnDefinition = "ntext")
     private String name;
-    @Column(columnDefinition = "varchar(255)")
+//    @Column(columnDefinition = "varchar(255)")
     private String image;
-    @Column(columnDefinition = "varchar(255)")
+//    @Column(columnDefinition = "varchar(255)")
     private String song;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;

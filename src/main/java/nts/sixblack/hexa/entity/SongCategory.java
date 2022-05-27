@@ -18,10 +18,9 @@ public class SongCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long songCategoryId;
-//    @Column(columnDefinition = "ntext")
-    private String name;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
+    private String name;
 
     @OneToMany(mappedBy = "songCategory")
     @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
