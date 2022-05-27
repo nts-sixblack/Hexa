@@ -110,15 +110,16 @@ public class FollowServiceImpl implements FollowService {
         User user = new User();
         user.setUserId(userId);
         List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
-        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true);
+        // danh sách người tôi đang theo dõi, tôi là sender, người trả về là recipient
+        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true);
         for(Follow follow:list){
             FollowInfo followInfo = new FollowInfo();
             followInfo.setFollowId(follow.getFollowId());
             followInfo.setStatus(follow.isStatus());
-            followInfo.setUserId(follow.getUserSender().getUserId());
-            followInfo.setUserName(follow.getUserSender().getName());
-            followInfo.setUserImage(follow.getUserSender().getAvatar());
-            followInfo.setEmail(follow.getUserSender().getEmail());
+            followInfo.setUserId(follow.getUserRecipient().getUserId());
+            followInfo.setUserName(follow.getUserRecipient().getName());
+            followInfo.setUserImage(follow.getUserRecipient().getAvatar());
+            followInfo.setEmail(follow.getUserRecipient().getEmail());
 
             followInfoList.add(followInfo);
         }
@@ -132,15 +133,16 @@ public class FollowServiceImpl implements FollowService {
         user.setUserId(userId);
         Pageable pageable = PageRequest.of(page, 5);
         List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
-        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true, pageable);
+        // danh sách người tôi đang theo dõi, tôi là sender
+        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true, pageable);
         for(Follow follow:list){
             FollowInfo followInfo = new FollowInfo();
             followInfo.setFollowId(follow.getFollowId());
             followInfo.setStatus(follow.isStatus());
-            followInfo.setUserId(follow.getUserSender().getUserId());
-            followInfo.setUserName(follow.getUserSender().getName());
-            followInfo.setUserImage(follow.getUserSender().getAvatar());
-            followInfo.setEmail(follow.getUserSender().getEmail());
+            followInfo.setUserId(follow.getUserRecipient().getUserId());
+            followInfo.setUserName(follow.getUserRecipient().getName());
+            followInfo.setUserImage(follow.getUserRecipient().getAvatar());
+            followInfo.setEmail(follow.getUserRecipient().getEmail());
 
             followInfoList.add(followInfo);
         }
@@ -153,7 +155,8 @@ public class FollowServiceImpl implements FollowService {
         User user = new User();
         user.setUserId(userId);
         List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
-        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true);
+        // người đang theo dõi tôi, tôi là người nhận recipient, trả về là sender
+        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true);
         for(Follow follow:list){
             FollowInfo followInfo = new FollowInfo();
             followInfo.setFollowId(follow.getFollowId());
@@ -175,7 +178,8 @@ public class FollowServiceImpl implements FollowService {
         user.setUserId(userId);
         Pageable pageable = PageRequest.of(page, 5);
         List<FollowInfo> followInfoList = new ArrayList<FollowInfo>();
-        List<Follow> list = followRepository.findByUserSenderAndStatus(user, true, pageable);
+        // người đang theo dõi tôi, tôi là người nhận, recipient
+        List<Follow> list = followRepository.findByUserRecipientAndStatus(user, true, pageable);
         for(Follow follow:list){
             FollowInfo followInfo = new FollowInfo();
             followInfo.setFollowId(follow.getFollowId());
