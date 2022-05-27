@@ -280,13 +280,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         Follow follow = followService.findFollow(myUserId, userId);
         if (follow == null){
-            userInfo.setFollow(-1);
+            userInfo.setFollow(-1); // chưa follow
         }
         if (follow != null){
             if (follow.isStatus()){
-                userInfo.setFollow(1);
+                userInfo.setFollow(1); // đã follow
             } else {
-                userInfo.setFollow(0);
+                userInfo.setFollow(0); // đang chờ xác nhận
             }
         }
 

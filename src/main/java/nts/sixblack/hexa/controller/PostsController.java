@@ -166,7 +166,7 @@ public class PostsController {
         long userId = getUserId();
 
         return ResponseEntity.status(HttpStatus.OK).body(
-            new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId))
+            new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId, userId))
         );
     }
 
@@ -175,7 +175,7 @@ public class PostsController {
         long userId = getUserId();
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId, page))
+                new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId, page, userId))
         );
     }
 
@@ -200,15 +200,19 @@ public class PostsController {
 
     @GetMapping("user/{userId}")
     public ResponseEntity<ResponseObject> listPostOfUser(@PathVariable("userId") long userId){
+        long myUserId = getUserId();
+
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","list post of user",postsService.findListPostsByUserId(userId))
+                new ResponseObject("ok","list post of user",postsService.findListPostsByUserId(userId, myUserId))
         );
     }
 
     @GetMapping("user/{userId}/{page}")
     public ResponseEntity<ResponseObject> listNumerPostsOfUser(@PathVariable("userId") long userId, @PathVariable("page") int page){
+        long myUserId = getUserId();
+
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","list number posts of user", postsService.findListPostsByUserId(userId, page))
+                new ResponseObject("ok","list number posts of user", postsService.findListPostsByUserId(userId, page, myUserId))
         );
     }
 

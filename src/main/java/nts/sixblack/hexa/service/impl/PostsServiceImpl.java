@@ -110,27 +110,27 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public List<PostsInfo> findListPostsByUserId(long userId) {
+    public List<PostsInfo> findListPostsByUserId(long userId, long myUserId) {
         User user = new User();
         user.setUserId(userId);
         List<Long> postsList = postsUserRepository.findPostsByUser(user);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
         for (Long postsId:postsList){
-            PostsInfo postsInfo = findPostByUser(postsId, userId);
+            PostsInfo postsInfo = findPostByUser(postsId, myUserId);
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;
     }
 
     @Override
-    public List<PostsInfo> findListPostsByUserId(long userId, int page) {
+    public List<PostsInfo> findListPostsByUserId(long userId, int page, long myUserId) {
         User user = new User();
         user.setUserId(userId);
         Pageable pageable = PageRequest.of(page, 5);
         List<Long> postsList = postsUserRepository.findPostsByUser(user, pageable);
         List<PostsInfo> postsInfoList = new ArrayList<PostsInfo>();
         for (Long postsId:postsList){
-            PostsInfo postsInfo = findPostByUser(postsId, userId);
+            PostsInfo postsInfo = findPostByUser(postsId, myUserId);
             postsInfoList.add(postsInfo);
         }
         return postsInfoList;

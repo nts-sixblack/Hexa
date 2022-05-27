@@ -8,8 +8,8 @@ import java.util.List;
 public interface PostsService {
     PostsInfo newPosts(PostsForm postsForm);
     PostsInfo findPostsById(long postsId);
-    List<PostsInfo> findListPostsByUserId(long userId);
-    List<PostsInfo> findListPostsByUserId(long userId, int page);
+    List<PostsInfo> findListPostsByUserId(long userId, long myUserId);
+    List<PostsInfo> findListPostsByUserId(long userId, int page, long myUserId);
     void delete(long postsId);
     List<PostsInfo> listPostShow(long userId);
     List<PostsInfo> listPostShow(long userId, int page);
