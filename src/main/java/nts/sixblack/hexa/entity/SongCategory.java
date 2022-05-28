@@ -21,6 +21,7 @@ public class SongCategory {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
     private String name;
+    private String image;
 
     @OneToMany(mappedBy = "songCategory")
     @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)

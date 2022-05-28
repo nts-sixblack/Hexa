@@ -23,6 +23,7 @@ public class SongCategoryServiceImpl implements SongCategoryService {
             SongCategoryInfo songCategoryInfo = new SongCategoryInfo();
             songCategoryInfo.setSongCategoryId(songCategory.getSongCategoryId());
             songCategoryInfo.setName(songCategory.getName());
+            songCategoryInfo.setImage(songCategory.getImage());
             songCategoryInfoList.add(songCategoryInfo);
         }
         return songCategoryInfoList;

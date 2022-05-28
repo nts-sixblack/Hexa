@@ -13,6 +13,7 @@ import java.util.List;
 public class SongCategoryInfo {
     private long songCategoryId;
     private String name;
+    private String image;
 
     private List<SongInfo> songList;
 }

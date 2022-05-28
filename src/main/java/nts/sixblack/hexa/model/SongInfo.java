@@ -17,6 +17,9 @@ public class SongInfo {
     private String song;
 //    private Date dateCreate;
     private String dateCreate;
+    private long userId;
+    private String userName;
+    private String avatar;
 
     private List<SongUserInfo> songUserList;
     private List<SongFeelInfo> songFeelList;

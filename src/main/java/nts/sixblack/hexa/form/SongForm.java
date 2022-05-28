@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SongForm {
+    private long userId;
     private String name;
     private MultipartFile image;
     private MultipartFile song;

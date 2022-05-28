@@ -35,4 +35,14 @@ public class SongUserServiceImpl implements SongUserService {
         return songUserInfoList;
 
     }
+
+    @Override
+    public List<Long> listSongOfUser(long userId) {
+        return songUserRepository.listSongOfUser(userId);
+    }
+
+    @Override
+    public void newSongUser(SongUser songUser) {
+        songUserRepository.save(songUser);
+    }
 }

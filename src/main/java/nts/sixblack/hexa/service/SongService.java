@@ -9,4 +9,5 @@ public interface SongService {
     SongInfo newSong(SongForm songForm);
     SongInfo findSongById(long songId);
     List<SongInfo> findListSongByCategoryId(long categoryId);
+    List<SongInfo> listSongOfUser(long userId);
 }
