@@ -80,8 +80,13 @@ public class ListSongServiceImpl implements ListSongService {
         for (ListSong listSong:listSongList){
             ListSongInfo listSongInfo = new ListSongInfo();
             listSongInfo.setListSongId(listSong.getListSongId());
+            listSongInfo.setUserId(userId);
+//            listSongInfo.setName(listSong.getUser().getName());
             listSongInfo.setNameOfList(listSong.getName());
             listSongInfo.setDateCreate(TimeConfig.getTime(listSong.getDateCreate()));
+            if(listSong.getListSongItemList().size()>0){
+                listSongInfo.setImage(listSong.getListSongItemList().get(0).getSong().getImage());
+            }
             listSongInfoList.add(listSongInfo);
         }
         return listSongInfoList;
