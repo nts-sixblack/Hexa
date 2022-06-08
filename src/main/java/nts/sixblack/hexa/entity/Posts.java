@@ -22,6 +22,7 @@ public class Posts {
     private long postsId;
 //    @Column(columnDefinition = "ntext")
     private String caption;
+    private String type;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 

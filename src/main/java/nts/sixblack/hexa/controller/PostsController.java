@@ -41,11 +41,9 @@ public class PostsController {
         long userId = getUserId();
         postsForm.setUserId(userId);
         PostsInfo postsInfo = postsService.newPosts(postsForm);
-        List<PostsInfo> list = new ArrayList<PostsInfo>();
-        list.add(postsInfo);
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok","Đăng posts thanh công", list)
+                new ResponseObject("ok","Đăng posts thanh công", postsInfo)
         );
     }
 
@@ -53,6 +51,7 @@ public class PostsController {
     public ResponseEntity<ResponseObject> newFile(@ModelAttribute("postsForm") PostsForm postsForm){
         long userId = getUserId();
         postsForm.setUserId(userId);
+        postsForm.setType("image");
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đăng posts thanh công", postsService.newPosts(postsForm))

@@ -13,6 +13,7 @@ import java.util.List;
 public class PostsInfo {
     private long postsId;
     private String caption;
+    private String type;
     private long totalFeel;
     private long totalComment;
 //    private Date dateCreate;

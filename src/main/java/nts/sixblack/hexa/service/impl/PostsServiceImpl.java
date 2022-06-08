@@ -59,6 +59,7 @@ public class PostsServiceImpl implements PostsService {
 
         Posts posts = new Posts();
         posts.setCaption(postsForm.getCaption());
+        posts.setType(postsForm.getType());
         posts.setDateCreate(new Date());
         Posts p = postsRepository.save(posts);
 
@@ -94,6 +95,7 @@ public class PostsServiceImpl implements PostsService {
         PostsInfo postsInfo = new PostsInfo();
         postsInfo.setPostsId(posts.getPostsId());
         postsInfo.setCaption(posts.getCaption());
+        postsInfo.setType(posts.getType());
         postsInfo.setDateCreate(TimeConfig.getTime(posts.getDateCreate()));
 
         postsInfo.setPostsUserList(postsUserService.findListPostsUserByPostId(postsId));

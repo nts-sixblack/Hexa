@@ -1,8 +1,8 @@
 cloud:
   aws:
     credentials:
-      access-key: AKIAULKD23ZB5MORSL5W
-      secret-key: 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
+      access-key: AKIASRKRB2OB36M437IE
+      secret-key: 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
     region:
       static: ap-southeast-1
     stack:
@@ -10,7 +10,7 @@ cloud:
 
 application:
   bucket:
-    name: nts-sixblack-hexa
+    name: nts-sixblack-hexa-storage
   security:
     secret-key: iamsixblack
 
