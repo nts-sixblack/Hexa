@@ -45,6 +45,7 @@ public class SongController {
 
     @GetMapping("categoryList")
     public ResponseEntity<ResponseObject> listCategory(){
+        System.out.println("list category ");
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách Category", songCategoryService.listCategory())
         );
@@ -53,6 +54,7 @@ public class SongController {
     @PostMapping("uploadFile")
     public ResponseEntity<ResponseObject> uploadFile(@ModelAttribute("songForm") SongForm songForm){
         songForm.setUserId(getUserId());
+        System.out.println("new song");
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã thêm mới 1 bài hát", songService.newSong(songForm))
         );
@@ -60,6 +62,7 @@ public class SongController {
 
     @GetMapping("{songId}")
     public ResponseEntity<ResponseObject> findSongById(@PathVariable("songId") long songId){
+        System.out.println("information song "+songId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Thông tin bài hát", songService.findSongById(songId))
         );
@@ -67,6 +70,7 @@ public class SongController {
 
     @GetMapping("list/{categoryId}")
     public ResponseEntity<ResponseObject> findSongByCategoryId(@PathVariable("categoryId") long categoryId){
+        System.out.println("list song of category "+categoryId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách bài hát theo thể loại", songService.findListSongByCategoryId(categoryId))
         );
@@ -74,6 +78,7 @@ public class SongController {
 
     @GetMapping("user/{userId}")
     public ResponseEntity<ResponseObject> listSongOfUser(@PathVariable("userId") long userId){
+        System.out.println("list song of user "+userId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách bài hát của 1 người", songService.listSongOfUser(userId))
         );
@@ -82,6 +87,7 @@ public class SongController {
     @PostMapping("like")
     public ResponseEntity<ResponseObject> like(@RequestBody Like like){
         songFeelService.like(like);
+        System.out.println("feel song");
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã like", "" )
         );
@@ -91,6 +97,7 @@ public class SongController {
     @PostMapping("comment")
     public ResponseEntity<ResponseObject> comment(@RequestBody CommentForm commentForm){
         songCommentService.comment(commentForm);
+        System.out.println("comment song");
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã comment", "")
         );

@@ -36,6 +36,7 @@ public class FollowController {
     public ResponseEntity<ResponseObject> sendRequestFollow(@PathVariable("userRecipientId") long userRecipientId){
         long userSenderId = getUserId();
         followService.sendRequestFollow(userSenderId,userRecipientId);
+        System.out.println("send request follow");
         return ResponseEntity.status(HttpStatus.OK).body(
           new ResponseObject("ok","Gửi request follow", "ok")
         );
@@ -45,6 +46,7 @@ public class FollowController {
     @GetMapping("request")
     public ResponseEntity<ResponseObject> reQuestListFollow(){
         long userId = getUserId();
+        System.out.println("list request follow "+userId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người yêu cầu follow", followService.requestList(userId))
         );
@@ -53,6 +55,8 @@ public class FollowController {
     @GetMapping("request/{page}")
     public ResponseEntity<ResponseObject> reQuestListFollow(@PathVariable("page") int page){
         long userId = getUserId();
+        System.out.println("list request follow "+userId+", page:"+page);
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người yêu cầu follow", followService.requestList(userId, page))
         );
@@ -62,6 +66,7 @@ public class FollowController {
     @GetMapping("follower")
     public ResponseEntity<ResponseObject> listFollower(){
         long userId = getUserId();
+        System.out.println("list follower "+userId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người tôi đang theo dõi", followService.followerList(userId))
         );
@@ -70,6 +75,8 @@ public class FollowController {
     @GetMapping("following")
     public ResponseEntity<ResponseObject> listFollowing(){
         long userId = getUserId();
+        System.out.println("list following "+userId);
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người đang theo dõi tôi", followService.followingList(userId))
         );
@@ -79,6 +86,7 @@ public class FollowController {
     public ResponseEntity<ResponseObject> changeFollowStatus(){
         long userId = getUserId();
         userService.changeFollowStatus(userId);
+        System.out.println("change follow status");
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã thay đổi trang thái followStatus", "ok")
         );
@@ -87,6 +95,7 @@ public class FollowController {
     @GetMapping("accept/{followId}")
     public ResponseEntity<ResponseObject> acceptRequest(@PathVariable("followId") long followId){
         followService.accept(followId);
+        System.out.println("accept follow "+followId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã xác nhận","")
         );
@@ -95,6 +104,7 @@ public class FollowController {
     @GetMapping("delete/{followId}")
     public ResponseEntity<ResponseObject> deleteRequest(@PathVariable("followId") long followId){
         followService.delete(followId);
+        System.out.println("delete follow"+followId);
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok","Đã xóa", "")
         );

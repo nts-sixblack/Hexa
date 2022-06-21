@@ -42,6 +42,8 @@ public class PostsController {
         postsForm.setUserId(userId);
         PostsInfo postsInfo = postsService.newPosts(postsForm);
 
+        System.out.println("new posts");
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đăng posts thanh công", postsInfo)
         );
@@ -52,6 +54,8 @@ public class PostsController {
         long userId = getUserId();
         postsForm.setUserId(userId);
         postsForm.setType("image");
+
+        System.out.println("new posts");
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đăng posts thanh công", postsService.newPosts(postsForm))
@@ -65,6 +69,7 @@ public class PostsController {
         Like like = new Like(tusId, userId);
 
         postsFeelService.like(like);
+        System.out.println("feel posts "+tusId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã like", "")
         );
@@ -77,6 +82,7 @@ public class PostsController {
         commentForm.setUserId(userId);
 
         postsCommentService.comment(commentForm);
+        System.out.println("comment posts "+commentForm.getTusId());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã comment", "")
         );
@@ -85,6 +91,7 @@ public class PostsController {
     @GetMapping("comment/{postsCommentId}")
     public ResponseEntity<ResponseObject> delete(@PathVariable("postsCommentId") long postsCommentId){
         postsCommentService.delete(postsCommentId);
+        System.out.println("delete comment "+postsCommentId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã xóa comment Posts", "")
         );
@@ -93,16 +100,10 @@ public class PostsController {
     @GetMapping("{postsId}")
     public ResponseEntity<ResponseObject> findPostsByPostId(@PathVariable("postsId") long postsId){
 
-        long userId = 0;
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication!=null){
-            String token = jwtTokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
-            System.out.println(token);
-           userId = jwtTokenProvider.getUserId(token);
-        }
+        long userId = getUserId();
 
         if (userId > 0){
+            System.out.println("information posts "+postsId);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("ok","Thông tin bài đăng", postsService.findPostByUser(postsId, userId))
             );
@@ -118,6 +119,7 @@ public class PostsController {
     @DeleteMapping("{postsId}")
     public ResponseEntity<ResponseObject> deletePosts(@PathVariable("postsId") long postsId){
         postsService.delete(postsId);
+        System.out.println("delete posts "+postsId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đẵ xóa", "")
         );
@@ -142,6 +144,7 @@ public class PostsController {
         long userId = getUserId();
 
         List<PostsInfo> list = postsService.listPostShow(userId);
+        System.out.println("list post show "+userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","List Posts Show", list)
@@ -154,6 +157,7 @@ public class PostsController {
         long userId = getUserId();
 
         List<PostsInfo> list = postsService.listPostShow(userId, page);
+        System.out.println("list post show "+userId+", page: "+page);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","List Posts Show", list)
@@ -164,6 +168,7 @@ public class PostsController {
     public ResponseEntity<ResponseObject> findMyListPosts(){
         long userId = getUserId();
 
+        System.out.println("my posts "+userId);
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId, userId))
         );
@@ -172,6 +177,7 @@ public class PostsController {
     @GetMapping("myPosts/{page}")
     public ResponseEntity<ResponseObject> findMyListPosts(@PathVariable("page") int page){
         long userId = getUserId();
+        System.out.println("my posts "+userId+", page: "+page);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "Danh sách các bài đăng của tôi", postsService.findListPostsByUserId(userId, page, userId))
@@ -182,6 +188,7 @@ public class PostsController {
 
     @GetMapping("listComment/{postsId}")
     public ResponseEntity<ResponseObject> listCommentByPostsId(@PathVariable("postsId") long postsId){
+        System.out.println("list comment of posts "+postsId);
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "list comment ", postsCommentService.findListCommentByPostsId(postsId))
         );
@@ -201,6 +208,7 @@ public class PostsController {
     public ResponseEntity<ResponseObject> listPostOfUser(@PathVariable("userId") long userId){
         long myUserId = getUserId();
 
+        System.out.println("list posts of user "+userId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","list post of user",postsService.findListPostsByUserId(userId, myUserId))
         );
@@ -209,6 +217,7 @@ public class PostsController {
     @GetMapping("user/{userId}/{page}")
     public ResponseEntity<ResponseObject> listNumerPostsOfUser(@PathVariable("userId") long userId, @PathVariable("page") int page){
         long myUserId = getUserId();
+        System.out.println("list posts of user "+userId+", page: "+page);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","list number posts of user", postsService.findListPostsByUserId(userId, page, myUserId))

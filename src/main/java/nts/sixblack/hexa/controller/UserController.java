@@ -47,6 +47,8 @@ public class UserController {
         UserInfo userInfo = userService.getByEmail(loginForm.getUserName());
         userInfo.setToken(token);
 
+        System.out.println("login "+userInfo.getUserId());
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đăng nhập thành công", userInfo)
         );
@@ -65,6 +67,7 @@ public class UserController {
             loginForm.setUserName(registerForm.getEmail());
             loginForm.setPassword(registerForm.getPassword());
 
+            System.out.println("register "+userInfo.getUserId());
             return login(loginForm);
 
         } else {
@@ -93,6 +96,7 @@ public class UserController {
 //            }
 //        } else {
             UserInfo userInfo = userService.moreInformation(myUserId, userId);
+        System.out.println("information user "+userId);
             if (userInfo!=null){
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject("ok","Thông tin người dùng", userInfo )
@@ -109,6 +113,7 @@ public class UserController {
 
     @GetMapping("/find/name={value}")
     public ResponseEntity<ResponseObject> findByName(@PathVariable("value") String name){
+        System.out.println("find like name "+name);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Danh sách người dùng theo tên", userService.getUserByName(name) )
         );
@@ -124,6 +129,7 @@ public class UserController {
 
         userService.updateAvatar(userImageForm);
 
+        System.out.println("update avatar "+userImageForm.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "Đã cập nhập avatar", "")
         );
@@ -134,6 +140,8 @@ public class UserController {
 
         long userId = getUserId();
         userService.deteleAvatar(userId);
+        System.out.println("delete avatar "+userId);
+
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "Đã xóa avatar", "")
@@ -146,6 +154,7 @@ public class UserController {
         userImageForm.setUserId(userId);
 
         userService.updateBackground(userImageForm);
+        System.out.println("update background "+userImageForm.getUserId());
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "Đã cập nhập ảnh nền", "")
@@ -157,6 +166,7 @@ public class UserController {
         long userId = getUserId();
 
         userService.deteleBackground(userId);
+        System.out.println("delete background "+userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok", "Đã xóa ảnh nền", "")
@@ -165,6 +175,7 @@ public class UserController {
 
     @PostMapping("/changeName")
     public ResponseEntity<ResponseObject> changeName(@RequestBody UserNameForm userNameForm){
+        System.out.println("change name "+userNameForm.getUserId());
 
         userService.changeName(userNameForm);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -175,6 +186,8 @@ public class UserController {
     @PostMapping("/update")
     public ResponseEntity<ResponseObject> update(@RequestBody UserForm userForm){
         userService.update(userForm);
+        System.out.println("update information user  "+userForm.getUserId());
+
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "Đã cập nhập thông tin người dùng", "")
         );
