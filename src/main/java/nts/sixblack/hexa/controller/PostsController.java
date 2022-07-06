@@ -198,7 +198,6 @@ public class PostsController {
 
     @GetMapping("listPosts/{page}")
     public ResponseEntity<ResponseObject> listNumberPosts(@PathVariable("page") int page){
-
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","list number posts", postsService.listNumberPosts(page, 3))
         );
