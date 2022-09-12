@@ -52,6 +52,9 @@ public class PostsServiceImpl implements PostsService {
     @Value("${application.bucket.name}")
     private String bucketName;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     @Override
     public PostsInfo newPosts(PostsForm postsForm) {
         User user = new User();
@@ -64,7 +67,8 @@ public class PostsServiceImpl implements PostsService {
         Posts p = postsRepository.save(posts);
 
         PostsImage postsImage = new PostsImage();
-        postsImage.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(postsForm.getFiles()));
+//        postsImage.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(postsForm.getFiles()));
+        postsImage.setImage(cloudinaryService.uploadFile(postsForm.getFiles())+"");
         postsImage.setPosts(p);
         postsImageService.save(postsImage);
 

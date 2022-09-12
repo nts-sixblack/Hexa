@@ -7,6 +7,11 @@ cloud:
       static: ap-southeast-1
     stack:
       auto: false
+  dinary:
+    name: dvwhtjg1u
+    api_key: 572142971914342
+    api_secret: UIDEQqDYQ2LYT1eQIqk9oeWrbw4
+    api_environment: CLOUDINARY_URL=cloudinary://572142971914342:UIDEQqDYQ2LYT1eQIqk9oeWrbw4@dvwhtjg1u
 
 application:
   bucket:

@@ -1,5 +1,6 @@
 package nts.sixblack.hexa.service.impl;
 
+import com.cloudinary.Cloudinary;
 import nts.sixblack.hexa.config.TimeConfig;
 import nts.sixblack.hexa.entity.Song;
 import nts.sixblack.hexa.entity.SongCategory;
@@ -37,6 +38,9 @@ public class SongServiceImpl implements SongService {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     @Value("${cloud.aws.region.static}")
     private String region;
 
@@ -50,8 +54,10 @@ public class SongServiceImpl implements SongService {
 
         Song song = new Song();
         song.setName(songForm.getName());
-        song.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(songForm.getImage()));
-        song.setSong("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(songForm.getSong()));
+//        song.setImage("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(songForm.getImage()));
+//        song.setSong("https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(songForm.getSong()));
+        song.setImage(cloudinaryService.uploadFile(songForm.getImage()));
+        song.setSong(cloudinaryService.uploadFile(songForm.getSong()));
         song.setSongCategory(songCategory);
         song.setDateCreate(new Date());
 

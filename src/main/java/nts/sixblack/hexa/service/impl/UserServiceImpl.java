@@ -7,10 +7,7 @@ import nts.sixblack.hexa.form.*;
 import nts.sixblack.hexa.model.PostsInfo;
 import nts.sixblack.hexa.model.UserInfo;
 import nts.sixblack.hexa.repository.UserRepository;
-import nts.sixblack.hexa.service.FollowService;
-import nts.sixblack.hexa.service.PostsService;
-import nts.sixblack.hexa.service.StorageService;
-import nts.sixblack.hexa.service.UserService;
+import nts.sixblack.hexa.service.*;
 import nts.sixblack.hexa.ultil.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +35,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     StorageService storageService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Autowired
     FollowService followService;
@@ -196,7 +196,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void updateAvatar(UserImageForm userImageForm) {
-        String avatar = "https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(userImageForm.getFile());
+//        String avatar = "https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(userImageForm.getFile());
+        String avatar = cloudinaryService.uploadFile(userImageForm.getFile());
+
         User user = userRepository.findByUserId(userImageForm.getUserId());
         user.setAvatar(avatar);
         userRepository.save(user);
@@ -211,7 +213,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void updateBackground(UserImageForm userImageForm) {
-        String background = "https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(userImageForm.getFile());
+//        String background = "https://"+bucketName+".s3."+region+".amazonaws.com/"+storageService.uploadFile(userImageForm.getFile());
+        String background = cloudinaryService.uploadFile(userImageForm.getFile());
         User user = userRepository.findByUserId(userImageForm.getUserId());
         user.setBackground(background);
         userRepository.save(user);
