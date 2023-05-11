@@ -26,6 +26,7 @@ public class CloudinaryService {
             String url = (String) r.get("secure_url");
             return url;
         } catch (Exception e) {
+            System.out.println(e);
             return "null";
         }
     }
