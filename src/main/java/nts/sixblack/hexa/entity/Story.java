@@ -24,17 +24,18 @@ public class Story {
     private String link;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
+    private long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    User user;
+//    @OneToOne
+//    @JoinColumn(name = "userId")
+//    User user;
 
-    @OneToMany(mappedBy = "story")
-    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
-    List<StoryFeel> storyFeelList;
-
-    @OneToMany(mappedBy = "story")
-    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
-    List<StoryComment> storyCommentList;
+//    @OneToMany(mappedBy = "story")
+//    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
+//    List<StoryFeel> storyFeelList;
+//
+//    @OneToMany(mappedBy = "story")
+//    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
+//    List<StoryComment> storyCommentList;
 
 }

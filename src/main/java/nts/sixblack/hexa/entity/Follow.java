@@ -28,5 +28,4 @@ public class Follow {
     @ManyToOne
     @JoinColumn(name = "userRecipient")
     User userRecipient;
-
 }

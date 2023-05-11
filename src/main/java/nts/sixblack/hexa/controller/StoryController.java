@@ -78,6 +78,14 @@ public class StoryController {
         );
     }
 
+    @GetMapping("show")
+    public ResponseEntity<ResponseObject> historyAppointment(@RequestParam(required = false, name = "page", defaultValue = "0") int page){
+        long userId = getUserId();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","List story", storyService.show(userId, page))
+        );
+    }
+
     private long getUserId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication!=null){

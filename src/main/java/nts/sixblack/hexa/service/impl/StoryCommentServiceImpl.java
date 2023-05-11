@@ -29,4 +29,11 @@ public class StoryCommentServiceImpl implements StoryCommentService {
         storyComment.setDateCreate(new Date());
         storyCommentRepository.save(storyComment);
     }
+
+    @Override
+    public long getTotalComment(long storyId) {
+        Story story = new Story();
+        story.setStoryId(storyId);
+        return storyCommentRepository.countAllByStory(story);
+    }
 }

@@ -6,4 +6,5 @@ public interface StoryCommentService {
 
     void comment(CommentForm commentForm);
 
+    long getTotalComment(long storyId);
 }

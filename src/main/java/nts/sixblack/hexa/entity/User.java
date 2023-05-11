@@ -96,15 +96,15 @@ public class User {
     @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
     List<ListSong> listSongList;
 
-    @OneToMany(mappedBy = "user")
-    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
-    List<Story> storyList;
-
-    @OneToMany(mappedBy = "user")
-    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
-    List<StoryFeel> storyFeelList;
-
-    @OneToMany(mappedBy = "user")
-    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
-    List<StoryComment> storyCommentList;
+//    @OneToMany(mappedBy = "user")
+//    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
+//    List<Story> storyList;
+//
+//    @OneToMany(mappedBy = "user")
+//    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
+//    List<StoryFeel> storyFeelList;
+//
+//    @OneToMany(mappedBy = "user")
+//    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE)
+//    List<StoryComment> storyCommentList;
 }

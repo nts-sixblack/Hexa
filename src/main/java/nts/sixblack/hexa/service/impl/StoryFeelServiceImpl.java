@@ -51,4 +51,11 @@ public class StoryFeelServiceImpl implements StoryFeelService {
     public StoryFeel save(StoryFeel storyFeel) {
         return storyFeelRepository.save(storyFeel);
     }
+
+    @Override
+    public long getTotalFeel(long storyId) {
+        Story story = new Story();
+        story.setStoryId(storyId);
+        return storyFeelRepository.countAllByStory(story);
+    }
 }

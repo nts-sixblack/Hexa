@@ -12,4 +12,6 @@ public interface StoryFeelService {
     long checkFeel(long storyId, long userId);
 
     void like(Like like);
+
+    long getTotalFeel(long storyId);
 }
