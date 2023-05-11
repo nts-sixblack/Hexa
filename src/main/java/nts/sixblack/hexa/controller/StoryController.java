@@ -1,11 +1,13 @@
 package nts.sixblack.hexa.controller;
 
+import nts.sixblack.hexa.form.CommentForm;
 import nts.sixblack.hexa.form.Like;
 import nts.sixblack.hexa.form.StoryForm;
 import nts.sixblack.hexa.jwt.JwtTokenProvider;
 import nts.sixblack.hexa.model.ResponseObject;
 import nts.sixblack.hexa.model.StoryInfo;
 import nts.sixblack.hexa.service.StorageService;
+import nts.sixblack.hexa.service.StoryCommentService;
 import nts.sixblack.hexa.service.StoryFeelService;
 import nts.sixblack.hexa.service.StoryService;
 import nts.sixblack.hexa.ultil.CustomUserDetail;
@@ -25,6 +27,9 @@ public class StoryController {
 
     @Autowired
     StoryFeelService storyFeelService;
+
+    @Autowired
+    StoryCommentService storyCommentService;
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -48,7 +53,7 @@ public class StoryController {
         long userId = getUserId();
         if (userId == 0) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                    new ResponseObject("fail","Đăng nhập đeeeee", "")
+                    new ResponseObject("fail","Đăng nhập story", "")
             );
         }
         Like like = new Like(tusId, userId);
@@ -57,6 +62,19 @@ public class StoryController {
         System.out.println("feel posts "+tusId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("ok","Đã like", "")
+        );
+    }
+
+    @PostMapping("comment")
+    public ResponseEntity<ResponseObject> comment(@RequestBody CommentForm commentForm){
+
+        long userId = getUserId();
+        commentForm.setUserId(userId);
+
+        storyCommentService.comment(commentForm);
+        System.out.println("comment story "+commentForm.getTusId());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("ok","Đã comment", "")
         );
     }
 
